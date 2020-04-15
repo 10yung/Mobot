@@ -4,7 +4,7 @@
 import sys
 sys.path.append('../../../')
 
-from src.preprocess.Interface.SourceInterface import SourceInterface
+from src.preprocess.utils.Interface.SourceInterface import SourceInterface
 
 
 class SourceManager():
