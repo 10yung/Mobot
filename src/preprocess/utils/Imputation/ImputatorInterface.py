@@ -8,5 +8,5 @@ class ImputatorInterface(ABC):
     """
 
     @abstractmethod
-    def impute(self, data: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    def impute(self, data: pd.DataFrame, column_name: str) -> None:
         pass

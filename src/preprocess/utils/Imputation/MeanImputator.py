@@ -11,8 +11,8 @@ class MeanImputator(ImputatorInterface):
         Substitute missing value by mean value
     """
 
-    def impute(self, data: pd.DataFrame, column_name: str) -> pd.DataFrame:
-        return data[column_name].fillna((data[column_name].mean()), inplace=True)
+    def impute(self, data: pd.DataFrame, column_name: str) -> None:
+        data[column_name].fillna((data[column_name].mean()), inplace=True)
 
 if __name__ == '__main__':
     print('### MeanImputator ###')
