@@ -1,12 +1,14 @@
 import sys
-
 sys.path.append('../../../')
 
-from src.preprocess.utils.CsvFetcher import CsvFetcher
+from src.preprocess.utils.Source.CsvFetcher import CsvFetcher
 
 
 class SourceFactory:
-
+    """
+        Manufacture the source object by name
+        :return source object
+    """
     def __init__(self, source_name: str):
         self._source_name = source_name
 

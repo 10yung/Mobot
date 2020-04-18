@@ -7,5 +7,5 @@ class SourceInterface(ABC):
     """
 
     @abstractmethod
-    def fetch(self, source_directory):
+    def fetch(self, source_directory: str):
         pass
