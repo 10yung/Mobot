@@ -1,10 +1,9 @@
-import os
 import pandas as pd
 import sys
 
 sys.path.append('../../../')
 
-from src.preprocess.utils.Interface.ImputatorInterface import ImputatorInterface
+from src.preprocess.utils.Imputation.ImputatorInterface import ImputatorInterface
 
 
 class MeanImputator(ImputatorInterface):

@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 sys.path.append('../../../')
 
-from src.preprocess.utils.Interface.ImputatorInterface import ImputatorInterface
+from src.preprocess.utils.Imputation.ImputatorInterface import ImputatorInterface
 
 
 class ImputatorManager():

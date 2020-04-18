@@ -3,7 +3,7 @@ import pandas as pd
 import sys
 sys.path.append('../../../')
 
-from src.preprocess.utils.Interface.SourceInterface import SourceInterface
+from src.preprocess.utils.Source.SourceInterface import SourceInterface
 
 
 class CsvFetcher(SourceInterface):
