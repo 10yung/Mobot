@@ -3,9 +3,8 @@ import sys
 sys.path.append('../../')
 
 from functools import reduce
-from src.preprocess.utils.SourceManager import SourceManager
-from src.preprocess.utils.CsvFetcher import CsvFetcher
-from src.preprocess.utils.SourceFactory import SourceFactory
+from src.preprocess.utils.Source.SourceManager import SourceManager
+from src.preprocess.utils.Source.SourceFactory import SourceFactory
 
 
 class CreateFlatTable:
