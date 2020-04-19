@@ -1,25 +1,26 @@
 import pandas as pd
 import sys
+
 sys.path.append('../../')
 
 from src.preprocess.utils.Imputation.ImputatorFactory import ImputatorFactory
 from src.preprocess.utils.Imputation.ImputatorManager import ImputatorManager
 from src.preprocess.utils.Source.CsvFetcher import CsvFetcher
+from src.preprocess.Interface.PreprocessCommandInterface import PreprocessCommandInterface
 
 
-class Imputation:
-    def __init__(self, source_dir: str, target_dir: str):
-        self._source_dir = source_dir
-        self._target_dir = target_dir
+class Imputation(PreprocessCommandInterface):
+    def __init__(self, columns: list, dataframe: pd.DataFrame = None):
+        self._dataframe = dataframe
+        self._columns = columns
 
-    def save_file(self, dataframe, file_name: str):
-        try:
-            dataframe.to_csv(f'{self._target_dir}/{file_name}.csv')
-            print('save flat table successfully!')
-        except Exception as e:
-            # append empty list if error happened
-            print(e)
+    def exec(self) -> pd.DataFrame:
+        imputation = ImputatorFactory('mean').generate()
+        imputator = ImputatorManager(imputation)
+        for column in self._columns:
+            imputator.exec(self._dataframe, column)
 
+        return self._dataframe
 
 if __name__ == '__main__':
     print('### Imputation ###')
@@ -39,4 +40,3 @@ if __name__ == '__main__':
     # impute missing value (N/A) with mean
     imputator.exec(data, 'Pop_Density')
     print(data)
-

@@ -1,16 +1,25 @@
 import pandas as pd
 import sys
+
 sys.path.append('../../')
 
 from src.preprocess.utils.Transform.TransformFactory import TransformFactory
 from src.preprocess.utils.Transform.TransformManager import TransformManager
 from src.preprocess.utils.Source.CsvFetcher import CsvFetcher
+from src.preprocess.Interface.PreprocessCommandInterface import PreprocessCommandInterface
 
 
-class Transformation:
-    def __init__(self, source_dir: str, target_dir: str):
-        self._source_dir = source_dir
-        self._target_dir = target_dir
+class Transformation(PreprocessCommandInterface):
+    def __init__(self, columns: list, dataframe: pd.DataFrame = None):
+        self._dataframe = dataframe
+        self._columns = columns
+
+    def exec(self) -> pd.DataFrame:
+        transform = TransformFactory('log').generate()
+        transformer = TransformManager(transform)
+        for column in self._columns:
+            transformer.exec(self._dataframe, column)
+        return self._dataframe
 
 
 if __name__ == '__main__':
@@ -31,4 +40,3 @@ if __name__ == '__main__':
     # impute missing value (N/A) with mean
     transform.exec(data, 'Literacy....')
     print(data)
-
