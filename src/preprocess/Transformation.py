@@ -23,12 +23,12 @@ if __name__ == '__main__':
     print(data)
 
     # create csv fetcher object
-    log_transformation = TransformFactory('log').get_transformation()
+    log_transformation = TransformFactory('log').generate()
 
     # execute get resource
     transform = TransformManager(log_transformation)
 
     # impute missing value (N/A) with mean
-    transform.get_transform(data, 'Literacy....')
+    transform.exec(data, 'Literacy....')
     print(data)
 

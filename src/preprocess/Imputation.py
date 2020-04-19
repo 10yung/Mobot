@@ -31,12 +31,12 @@ if __name__ == '__main__':
     print(data)
 
     # create csv fetcher object
-    mean_imputation = ImputatorFactory('mean').get_imputation()
+    mean_imputation = ImputatorFactory('mean').generate()
 
     # execute get resource
     imputator = ImputatorManager(mean_imputation)
 
     # impute missing value (N/A) with mean
-    imputator.get_imputation(data, 'Pop_Density')
+    imputator.exec(data, 'Pop_Density')
     print(data)
 

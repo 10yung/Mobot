@@ -1,23 +1,25 @@
 import sys
-sys.path.append('../../../')
+
+sys.path.append('../../../../')
 
 from src.preprocess.utils.Imputation.MeanImputator import MeanImputator
+from src.preprocess.utils.Interface.FactoryInterface import FactoryInterface
 
 
-class ImputatorFactory:
+class ImputatorFactory(FactoryInterface):
     """
         Manufacture the imputator object by name
         :return source object
     """
-    def __init__(self, imputator_name: str):
-        self._imputator_name = imputator_name
+    def __init__(self, object_name: str):
+        self._object_name = object_name
 
-    def get_imputation(self):
+    def generate(self) -> object:
         try:
             imputation_map = {
                 'mean': MeanImputator
             }
-            return imputation_map[self._imputator_name]()
+            return imputation_map[self._object_name]()
 
         except Exception as e:
             print('<<< ImputatorFactory Error >>>')
@@ -27,4 +29,4 @@ class ImputatorFactory:
 
 if __name__ == "__main__":
     print('### Imputator Factory ###')
-    print(ImputatorFactory('mean').get_imputation())
+    print(ImputatorFactory('mean').generate())

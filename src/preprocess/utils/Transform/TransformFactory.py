@@ -1,18 +1,21 @@
 import sys
-sys.path.append('../../../')
+
+sys.path.append('../../../../')
 
 from src.preprocess.utils.Transform.LogTransform import LogTransform
+from src.preprocess.utils.Interface.FactoryInterface import FactoryInterface
 
 
-class TransformFactory:
+class TransformFactory(FactoryInterface):
     """
         Manufacture the transform object by name
         :return source object
     """
+
     def __init__(self, transform_name: str):
         self._transform_name = transform_name
 
-    def get_transformation(self):
+    def generate(self):
         try:
             transform_map = {
                 'log': LogTransform
@@ -27,4 +30,4 @@ class TransformFactory:
 
 if __name__ == "__main__":
     print('### Transform Factory ###')
-    print(TransformFactory('log').get_transformation())
+    print(TransformFactory('log').generate())

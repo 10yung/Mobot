@@ -1,23 +1,24 @@
 import sys
-sys.path.append('../../../')
+sys.path.append('../../../../')
 
+from src.preprocess.utils.Interface.FactoryInterface import FactoryInterface
 from src.preprocess.utils.Source.CsvFetcher import CsvFetcher
 
 
-class SourceFactory:
+class SourceFactory(FactoryInterface):
     """
         Manufacture the source object by name
         :return source object
     """
-    def __init__(self, source_name: str):
-        self._source_name = source_name
+    def __init__(self, object_name: str):
+        self._object_name = object_name
 
-    def get_source(self):
+    def generate(self):
         try:
             source_map = {
                 'csv': CsvFetcher
             }
-            return source_map[self._source_name]()
+            return source_map[self._object_name]()
 
         except Exception as e:
             print('<<< SourceFactory Error >>>')
@@ -27,4 +28,4 @@ class SourceFactory:
 
 if __name__ == "__main__":
     print('### SourceFactory ###')
-    print(SourceFactory('csv').get_source())
+    print(SourceFactory('csv').generate())
