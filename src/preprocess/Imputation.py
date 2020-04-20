@@ -3,6 +3,7 @@ import sys
 
 sys.path.append('../../')
 
+from typing import Any
 from src.preprocess.utils.Imputation.ImputatorFactory import ImputatorFactory
 from src.preprocess.utils.Imputation.ImputatorManager import ImputatorManager
 from src.preprocess.utils.Source.CsvFetcher import CsvFetcher
@@ -10,17 +11,22 @@ from src.preprocess.Interface.PreprocessCommandInterface import PreprocessComman
 
 
 class Imputation(PreprocessCommandInterface):
-    def __init__(self, columns: list, dataframe: pd.DataFrame = None):
-        self._dataframe = dataframe
-        self._columns = columns
+    def __init__(self, info: dict):
+        """
+        Create Imputation object
+        :param info: {
+            type: 'mean'
+        }
+        """
+        self._info = info
 
-    def exec(self) -> pd.DataFrame:
-        imputation = ImputatorFactory('mean').generate()
+    def exec(self, columns: list, dataframe: pd.DataFrame = None) -> pd.DataFrame:
+        imputation = ImputatorFactory(self._info['type']).generate()
         imputator = ImputatorManager(imputation)
-        for column in self._columns:
-            imputator.exec(self._dataframe, column)
+        for column in columns:
+            imputator.exec(dataframe, column)
 
-        return self._dataframe
+        return dataframe
 
 if __name__ == '__main__':
     print('### Imputation ###')

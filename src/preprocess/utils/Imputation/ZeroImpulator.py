@@ -11,8 +11,8 @@ class ZeroImputator(ImputatorInterface):
         Substitute missing value by 0
     """
 
-    def impute(self, data: pd.DataFrame, column_name: str) -> pd.DataFrame:
-        return data[column_name].fillna(0, inplace=True)
+    def impute(self, data: pd.DataFrame, column_name: str) -> None:
+        data[column_name].fillna(0, inplace=True)
 
 if __name__ == '__main__':
     print('### MedianImputator ###')

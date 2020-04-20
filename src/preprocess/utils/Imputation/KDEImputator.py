@@ -5,7 +5,7 @@ from sklearn.neighbors import KernelDensity
 from sklearn.model_selection import GridSearchCV
 import numpy as np
 
-sys.path.append('../../../')
+sys.path.append('../../../../')
 
 from src.preprocess.utils.Imputation.ImputatorInterface import ImputatorInterface
 
@@ -15,28 +15,33 @@ class KDEImputator(ImputatorInterface):
     """
         Substitute missing value by random value based on Kernel Density Estimation (KDE)
     """
-    def impute(self, data: pd.DataFrame, column_name: str) -> pd.DataFrame:
+    def impute(self, data: pd.DataFrame, column_name: str) -> None:
         # Create test-data
-        data_x, data_y = make_blobs(n_samples=100, n_features=2, centers=7, cluster_std=0.5, random_state=0)
+        data_x, data_y = make_blobs(n_samples=100, n_features=1, centers=7, cluster_std=0.5, random_state=0)
+
         # Fit KDE (cross-validation used!)
-        params = {'bandwidth': np.logspace(-1, 2, 30)}
-        grid = GridSearchCV(KernelDensity(), params)
+        params = {'bandwidth': data[column_name].dropna().to_numpy()}
+        print(data[column_name].dropna().to_numpy())
+        grid = GridSearchCV(KernelDensity(bandwidth=0.5), params)
         grid.fit(data_x)
         kde = grid.best_estimator_
-        bandwidth = grid.best_params_['bandwidth']
 
         # Resample
-        N_POINTS_RESAMPLE = 1000
-        resampled = kde.sample(N_POINTS_RESAMPLE)
+        N_POINTS_RESAMPLE = 1
+        data[column_name] = data[column_name].apply(lambda x: kde.sample(N_POINTS_RESAMPLE)[0][0] if pd.isnull(x) else x)
 
-    # TODO:
-    # what the kernel is?
-    # the resampled return four values if the N_POINTS_RESAMPLE = 2
-
-        return data[column_name].fillna(resampled, inplace=True)
 
 
 
 
 if __name__ == '__main__':
     print('### KDEImputator ###')
+    kde = KDEImputator()
+    df = pd.DataFrame([[3, 2, np.nan, 0],
+                   [3, 4, np.nan, 1],
+                   [3, np.nan, np.nan, 5],
+                   [np.nan, 3, np.nan, 4]],
+                  columns=list('ABCD'))
+    print(df)
+    kde.impute(df, 'A')
+    print(df)

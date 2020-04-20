@@ -3,6 +3,7 @@ import sys
 
 sys.path.append('../../')
 
+from typing import Any
 from src.preprocess.utils.Transform.TransformFactory import TransformFactory
 from src.preprocess.utils.Transform.TransformManager import TransformManager
 from src.preprocess.utils.Source.CsvFetcher import CsvFetcher
@@ -10,16 +11,22 @@ from src.preprocess.Interface.PreprocessCommandInterface import PreprocessComman
 
 
 class Transformation(PreprocessCommandInterface):
-    def __init__(self, columns: list, dataframe: pd.DataFrame = None):
-        self._dataframe = dataframe
-        self._columns = columns
+    def __init__(self, info: dict):
+        """
+        Create Transformation
+        :param info: {
+            type: 'log'
+            data: pd.DataFrame
+        }
+        """
+        self._info = info
 
-    def exec(self) -> pd.DataFrame:
-        transform = TransformFactory('log').generate()
+    def exec(self, columns: list, dataframe: pd.DataFrame = None) -> pd.DataFrame:
+        transform = TransformFactory(self._info['type']).generate()
         transformer = TransformManager(transform)
-        for column in self._columns:
-            transformer.exec(self._dataframe, column)
-        return self._dataframe
+        for column in columns:
+            transformer.exec(dataframe, column)
+        return dataframe
 
 
 if __name__ == '__main__':
