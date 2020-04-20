@@ -4,6 +4,9 @@ sys.path.append('../../../../')
 
 from src.preprocess.utils.Imputation.MeanImputator import MeanImputator
 from src.preprocess.utils.Interface.FactoryInterface import FactoryInterface
+from src.preprocess.utils.Imputation.MedianImputator import MedianImputator
+from src.preprocess.utils.Imputation.ZeroImpulator import ZeroImputator
+from src.preprocess.utils.Imputation.KDEImputator import KDEImputator
 
 
 class ImputatorFactory(FactoryInterface):
@@ -17,7 +20,10 @@ class ImputatorFactory(FactoryInterface):
     def generate(self) -> object:
         try:
             imputation_map = {
-                'mean': MeanImputator
+                'mean': MeanImputator,
+                'median': MedianImputator,
+                'zero': ZeroImputator,
+                'kde': KDEImputator
             }
             return imputation_map[self._object_name]()
 
