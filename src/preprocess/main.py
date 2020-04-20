@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
         'imputation': [
             {
-                'columns': ['Pop_Density'],
+                'columns': ['Pop_Density', 'Death Rate'],
                 'type': 'mean'
             },
             {
@@ -40,6 +40,7 @@ if __name__ == '__main__':
     preprocess_command_register = PreprocessCommandContainer()
 
     # register command
+    # TODO: extract merge functionss and get source
     preprocess_command_register.register('create_flat_from_csv',
                                          CreateFlatTable(preprocess_exec_plan['source_dir'],
                                                          {'merge_key': 'Country', 'from_type': 'csv'}))
