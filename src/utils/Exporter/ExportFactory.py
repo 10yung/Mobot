@@ -1,15 +1,13 @@
-import sys
-sys.path.append('../../../')
-
 from src.utils.Interface.FactoryInterface import FactoryInterface
 from src.utils.Exporter.CSV_Exporter import CSV_Exporter
-
+import sys
+sys.path.append('../../../')
 
 
 class ExportFactory(FactoryInterface):
     """
-        Manufacture the source object by name
-        :return source object
+        Manufacture the exporter object by name
+        :return exporter object
     """
     def __init__(self, object_name: str):
         self._object_name = object_name
@@ -22,6 +20,6 @@ class ExportFactory(FactoryInterface):
             return export_map[self._object_name]()
 
         except Exception as e:
-            print('<<< SourceFactory Error >>>')
+            print('<<< ExporterFactory Error >>>')
             print(f'Exception type {e.__class__.__name__}, Invalid param {e}')
             return None

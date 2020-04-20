@@ -1,10 +1,9 @@
-import sys
-sys.path.append('../../../')
 import pandas as pd
 from typing import TypeVar
 from src.utils.Exporter.ExportInterface import ExportInterface
 from src.utils.Interface.ManagerInterface import ManagerInterface
-
+import sys
+sys.path.append('../../../')
 
 ExportType = TypeVar('ExportType', object, ExportInterface)
 

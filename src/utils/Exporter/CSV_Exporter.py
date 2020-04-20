@@ -2,9 +2,7 @@ import pandas as pd
 import sys
 import os
 import pandas as pd
-
 from src.utils.Exporter.ExportInterface import ExportInterface
-
 sys.path.append('../../')
 
 
