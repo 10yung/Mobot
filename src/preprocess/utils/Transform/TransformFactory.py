@@ -2,8 +2,9 @@ import sys
 
 sys.path.append('../../../../')
 
-from src.preprocess.utils.Transform.LogTransform import LogTransform
 from src.preprocess.utils.Interface.FactoryInterface import FactoryInterface
+from src.preprocess.utils.Transform.LogTransform import LogTransform
+from src.preprocess.utils.Transform.RootSquareTransform import RootSquareTransform
 
 
 class TransformFactory(FactoryInterface):
@@ -18,7 +19,8 @@ class TransformFactory(FactoryInterface):
     def generate(self):
         try:
             transform_map = {
-                'log': LogTransform
+                'log': LogTransform,
+                'root_square': RootSquareTransform
             }
             return transform_map[self._transform_name]()
 
