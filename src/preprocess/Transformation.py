@@ -31,7 +31,7 @@ class Transformation(PreprocessCommandInterface):
 
 if __name__ == '__main__':
     print('### Transformation ###')
-    source_directory = '../../data/raw'
+    source_directory = '../../data/preprocessed'
     target_directory = '../../data/imputed'
 
     csv_fetcher = CsvFetcher()
