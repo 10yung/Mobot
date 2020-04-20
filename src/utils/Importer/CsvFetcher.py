@@ -7,19 +7,17 @@ from src.utils.Importer.ImporterInterface import ImporterInterface
 
 
 class CsvFetcher(ImporterInterface):
-    def fetch(self, source_directory: str) -> list:
+    def fetch(self, profiles: list) -> list:
         '''
             return a list of dataframe inside the source folder or empty dataframe if error happened
         '''
-        source_name = os.listdir(os.path.abspath(source_directory))
-        source_files = [f'{source_directory}/{name}' for name in source_name]
         result = []
-
         # read file to df and append to result list
         # TODO: handle huge files
-        for file in source_files:
-            if file.endswith('.csv'):
+        for profile in profiles:
+            for file_name in profile['files']:
                 try:
+                    file = profile['dir']+file_name
                     # use latin-1 encoding method
                     df = pd.read_csv(file, encoding="ISO-8859-1", index_col=0)
                     result.append(df)
@@ -28,12 +26,18 @@ class CsvFetcher(ImporterInterface):
                     # append empty list if error happened
                     print(e)
                     result.append(pd.DataFrame())
-
         return result
 
 
 if __name__ == '__main__':
     print('### CsvFetcher ###')
     csv_fetcher = CsvFetcher()
-    df_list = csv_fetcher.fetch('../../../data/source')
+    files = [{
+        'dir': '../../../data/source/',
+        'files': ['he_li_pd.csv', 'death_recovery_gdp_unemp_withnan.csv']
+    }, {
+        'dir': '../../../data/preprocessed/',
+        'files': ['covid_19.csv']
+    }]
+    df_list = csv_fetcher.fetch(files)
     print(df_list)

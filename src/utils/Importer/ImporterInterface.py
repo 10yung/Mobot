@@ -7,5 +7,5 @@ class ImporterInterface(ABC):
     """
 
     @abstractmethod
-    def fetch(self, source_directory: str):
+    def fetch(self, profiles: list):
         pass
