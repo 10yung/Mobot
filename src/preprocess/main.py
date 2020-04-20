@@ -73,5 +73,5 @@ if __name__ == '__main__':
 
     loader = ExportFactory('csv').generate()
     saver = ExportManager(loader)
-    saver.exec(flat_table, '../../data/preprocessed', 'covid19_preprocessed.csv')
+    saver.exec(flat_table, '../../data/preprocessed', 'covid19_preprocessed')
 
