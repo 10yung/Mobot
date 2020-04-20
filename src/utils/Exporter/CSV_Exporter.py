@@ -1,10 +1,14 @@
 import pandas as pd
 import sys
+import os
+import pandas as pd
+
+from src.utils.Exporter.ExportInterface import ExportInterface
 
 sys.path.append('../../')
 
 
-class DataframeExporter:
+class CSV_Exporter(ExportInterface):
 
     @staticmethod
     def save_file(dataframe: pd.DataFrame, target_dir: str, file_name: str):
