@@ -30,7 +30,7 @@ class Imputation(PreprocessCommandInterface):
 
 if __name__ == '__main__':
     print('### Imputation ###')
-    source_directory = '../../data/raw'
+    source_directory = '../../data/preprocessed'
     target_directory = '../../data/imputed'
 
     csv_fetcher = CsvFetcher()
