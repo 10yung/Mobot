@@ -2,7 +2,7 @@
 # The bridge class  that bind source drivers and client api for execution
 # ---
 import sys
-sys.path.append('../../../../')
+sys.path.append('../../../')
 
 from typing import TypeVar
 from src.utils.Importer.ImporterInterface import ImporterInterface
