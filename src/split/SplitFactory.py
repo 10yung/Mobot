@@ -2,7 +2,7 @@ import sys
 sys.path.append('../../')
 
 from src.split.RatioSplit import RatioSplit
-
+from src.split.ColumnSplit import ColumnSplit
 
 class SplitFactory:
     def __init__(self, object_name: str):
@@ -11,7 +11,8 @@ class SplitFactory:
     def generate(self):
         try:
             source_map = {
-                'ratio': RatioSplit
+                'ratio': RatioSplit,
+                'column':ColumnSplit
             }
             return source_map[self._object_name]()
 
@@ -19,3 +20,5 @@ class SplitFactory:
             print('<<< SourceFactory Error >>>')
             print(f'Exception type {e.__class__.__name__}, Invalid param {e}')
             return None
+
+

@@ -2,8 +2,8 @@ import pandas as pd
 from typing import Tuple
 
 
-def split(dataframe: pd.DataFrame, key_column :str , key_vlaue_for_train: list) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        train_bool = dataframe[key_column].isin(key_vlaue_for_train)
+def split(dataframe: pd.DataFrame, key_column :str , key_values_for_train: list) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        train_bool = dataframe[key_column].isin(key_values_for_train)
         training = dataframe[train_bool]
         testing = dataframe[~train_bool]
         return training, testing
@@ -11,7 +11,7 @@ def split(dataframe: pd.DataFrame, key_column :str , key_vlaue_for_train: list) 
 
 
 if __name__ == '__main__':
-    print('### Test')
+    print('### Test ###')
 
 data = {'First_Name':  ["Henry","Andy","Jane"],
         'Last_name': ["Liang", "Lin","Su"],
@@ -22,7 +22,7 @@ df_test = pd.DataFrame(data, columns = ['First_Name','Last_name','Country_name']
 # print(df_test)
 
 
-training, testing = split(df_test,'Country_name',["Taiwan"])
+training, testing = split(df_test,'Country_name',["Taiwan","Japan"])
 
 print(training)
 print(testing)

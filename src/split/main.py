@@ -12,6 +12,14 @@ from src.preprocess.utils.Source.SourceManager import SourceManager
 if __name__ == '__main__':
     print('### Split Main File')
 
+    data = {'First_Name':  ["Henry","Andy","Jane"],
+            'Last_name': ["Liang", "Lin","Su"],
+            'Country_name' :["Taiwan","Taiwan","Japan"]
+            }
+
+    df_test = pd.DataFrame(data, columns = ['First_Name','Last_name','Country_name'])
+
+
     # TODO: this will change to Importer object
     # get source
     loader = SourceFactory('csv').generate()
@@ -19,6 +27,12 @@ if __name__ == '__main__':
 
     # initialize split object
     ratio_splitter = SplitFactory('ratio').generate()
+    column_splitter = SplitFactory('column').generate()
+
+    training, testing = SplitManager(column_splitter).exec(df_test,'Country_name',["Taiwan"])
+    print(training)
+    print(testing)
+
 
     # execute split function
     training, testing = SplitManager(ratio_splitter).exec(data, 0.8)

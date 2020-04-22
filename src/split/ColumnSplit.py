@@ -1,29 +1,17 @@
 import pandas as pd
 import sys
 sys.path.append('../../')
-from src.split.SplitFactory import SplitFactory
-from src.split.SplitManager import SplitManager
-from src.preprocess.utils.Source.SourceFactory import SourceFactory
-from src.preprocess.utils.Source.SourceManager import SourceManager
+
 from typing import Tuple
 from src.split.SplitInterface import SplitInterface
 
 
 class ColumnSplit(SplitInterface):
-    def split(self, dataframe: pd.DataFrame, key_column: str, training_value: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
-
-
-
-        training = dataframe.sample(frac=ratio, random_state=0)
-        testing = dataframe.drop(training.index)
+    def split(self, dataframe: pd.DataFrame, key_column :str , key_values_for_train: list) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        train_boolean_value = dataframe[key_column].isin(key_values_for_train)
+        training = dataframe[train_boolean_value]
+        testing = dataframe[~train_boolean_value]
         return training, testing
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
@@ -38,12 +26,9 @@ df_test = pd.DataFrame(data, columns = ['First_Name','Last_name','Country_name']
 
 
 
-
-
-
-    ratio_splitter = SplitFactory('ratio').generate()
-
-    # execute split function
-    training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
-    # print(training)
-    # print(testing)
+# column_splitter = SplitFactory('column').generate()
+# print(column_splitter)
+# SplitManager(column_splitter).exec_1(df_test,'Country_name',["Taiwan"])
+#
+# print(training)
+# print(testing)
