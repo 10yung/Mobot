@@ -19,6 +19,11 @@ if __name__ == '__main__':
 
     df_test = pd.DataFrame(data, columns = ['First_Name','Last_name','Country_name'])
 
+    test_dict = {
+        "column_name" : "Country_name",
+        "train_values": ["Taiwan"],
+        "test_values": ["Japan"]
+    }
 
     # TODO: this will change to Importer object
     # get source
@@ -29,7 +34,7 @@ if __name__ == '__main__':
     ratio_splitter = SplitFactory('ratio').generate()
     column_splitter = SplitFactory('column').generate()
 
-    training, testing = SplitManager(column_splitter).exec(df_test,'Country_name',["Taiwan"])
+    training, testing = SplitManager(column_splitter).exec(df_test,test_dict)
     print(training)
     print(testing)
 

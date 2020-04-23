@@ -11,8 +11,8 @@ class SplitManager:
     def __init__(self, split_type: SplitType):
         self._split_type = split_type
 
-    def exec(self, dataframe: pd.DataFrame, *criteria: Any):
-        return self._split_type.split(dataframe, *criteria)
+    def exec(self, dataframe: pd.DataFrame, criteria: Any):
+        return self._split_type.split(dataframe, criteria)
 
 
 if __name__ == '__main__':

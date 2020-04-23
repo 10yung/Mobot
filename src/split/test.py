@@ -2,10 +2,15 @@ import pandas as pd
 from typing import Tuple
 
 
-def split(dataframe: pd.DataFrame, key_column :str , key_values_for_train: list) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        train_bool = dataframe[key_column].isin(key_values_for_train)
+def split(dataframe: pd.DataFrame, key_info_dict :dict ) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        key_column = key_info_dict["column_name"]
+        train_values = key_info_dict["train_values"]
+        test_values = key_info_dict["test_values"]
+
+        train_bool = dataframe[key_column].isin(train_values)
+        test_bool = dataframe[key_column].isin(test_values)
         training = dataframe[train_bool]
-        testing = dataframe[~train_bool]
+        testing = dataframe[test_bool]
         return training, testing
 
 
@@ -22,7 +27,15 @@ df_test = pd.DataFrame(data, columns = ['First_Name','Last_name','Country_name']
 # print(df_test)
 
 
-training, testing = split(df_test,'Country_name',["Taiwan","Japan"])
+test_dict = {
+        "column_name" : "Country_name",
+        "train_values": ["Taiwan"],
+        "test_values": ["Japan"]
+}
 
+
+
+training, testing = split(df_test,test_dict)
 print(training)
 print(testing)
+
