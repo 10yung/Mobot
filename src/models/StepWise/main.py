@@ -27,23 +27,18 @@ training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
 importer_object = ImporterFactory('csv').generate()
 importer_manager = ImporterManager(importer_object)
 files = [{
-    'dir': '../../../data/source/',
-    'files': ['he_li_pd.csv', 'death_recovery_gdp_unemp_withnan.csv']
-}, {
     'dir': '../../../data/preprocessed/',
     'files': ['covid_19.csv']
 }]
-list_from_importer = importer_manager.exec(files)
-# print(list_from_importer)
+data = importer_manager.exec(files)[0]
+# print(data)
 
-
-df_from_importer = pd.DataFrame(list_from_importer[0])
-training, testing = SplitManager(ratio_splitter).exec(df_from_importer, 0.8)
+training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
 print(training.columns)
 # print(testing)
-
-X = training[['Interest_Rate','Unemployment_Rate']] # here we have 2 variables for the multiple linear regression. If you just want to use one variable for simple linear regression, then use X = df['Interest_Rate'] for example
-Y = training['Stock_Index_Price']
+#
+X = training[["Health.expenditures....of.GDP.","Literacy...."]] # here we have 2 variables for the multiple linear regression. If you just want to use one variable for simple linear regression, then use X = df['Interest_Rate'] for example
+Y = training['Physicians.density..physicians.1.000.population.']
 #
 # X = sm.add_constant(X) # adding a constant
 #
