@@ -17,11 +17,15 @@ if __name__ == '__main__':
 
         'imputation': [
             {
-                'columns': ['Pop_Density', 'Death Rate'],
+                'columns': ['Health.expenditures....of.GDP.', 'Literacy....',
+                            'Physicians.density..physicians.1.000.population.',
+                            'Obesity - adult prevalence rate (%)',
+                            'Life expectancy at birth (years)', 'H_bed_density', 'Imigrate_Rate'],
                 'type': 'mean'
             },
             {
-                'columns': ['Literacy....'],
+                'columns': ['Pop_Density', 'Death Rate', 'Recovery Rate',
+                            'GDP - per capita (PPP) (US$)', 'Unemployment rate (%)'],
                 'type': 'zero'
             }
         ],
@@ -61,7 +65,7 @@ if __name__ == '__main__':
     # ----------
     flat_table = preprocess_command_register.get('create_flat_from_csv').exec()
     print('before preprocess')
-    print(flat_table)
+    print(flat_table.columns)
 
     for imputation in preprocess_exec_plan['imputation']:
         preprocess_command_register.get(f"imputation_by_{imputation['type']}").exec(imputation['columns'], flat_table)
