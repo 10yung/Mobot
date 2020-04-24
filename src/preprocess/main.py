@@ -17,11 +17,15 @@ if __name__ == '__main__':
 
         'imputation': [
             {
-                'columns': ['Pop_Density', 'Death Rate'],
+                'columns': ['Pop_Density', 'Death Rate', 'Health.expenditures....of.GDP.', 'Literacy....',
+                            'Physicians.density..physicians.1.000.population.',
+                            'Obesity - adult prevalence rate (%)',
+                            'Life expectancy at birth (years)', 'H_bed_density', 'Imigrate_Rate',
+                            'Pop_Density', 'Death Rate', 'Recovery Rate'],
                 'type': 'mean'
             },
             {
-                'columns': ['Literacy....'],
+                'columns': ['Literacy....', 'GDP - per capita (PPP) (US$)', 'Unemployment rate (%)'],
                 'type': 'zero'
             }
         ],
