@@ -42,27 +42,33 @@ if __name__ == '__main__':
            'life_expect', 'h_bed_density', 'imigrate_rate']
 
     # aic_object = aic()
-    # aic_model, aic_predictor, aic_result_df = aic.exec( training , selected_column_list, ['recovery_rate'])
+    aic_model, aic_predictor, aic_result_df = aic.exec( training , selected_column_list, ['recovery_rate'])
+    aic_y_pred = aic_model.predict(testing[aic_predictor])
+    aic_rms = sqrt(mean_squared_error(testing['recovery_rate'], aic_y_pred))
+
+
 
     criteria = {
         'p_value': 0.05
     }
-
     model = StepWise(criteria)
     stepwise_model, stepwise_predictor, stepwise_result_df = model.exec(training, selected_column_list, ['recovery_rate'])
+    stepwise_y_pred = stepwise_model.predict(testing[stepwise_predictor])
+    stepwise_rms = sqrt(mean_squared_error(testing['recovery_rate'], stepwise_y_pred))
+
 
     model = SimpleLm()
     simple_model, simple_predictor, simple_result_df = model.exec(training, selected_column_list, ['recovery_rate'])
+    simple_y_pred = simple_model.predict(testing[simple_predictor])
+    Simple_rms = sqrt(mean_squared_error(testing['recovery_rate'], simple_y_pred))
+
+   
 
 
-    # print(aic_model)
-    print(stepwise_result_df)
-    print(simple_model)
 
-    # aic_y_pred = aic_model.predict(testing[aic_predictor])
-    # print(aic_y_pred)
-    # aic_rms = sqrt(mean_squared_error(testing['recovery_rate'], aic_y_pred))
-    # print(aic_rms)
 
-    # ypred = olsres.predict(X)
+    # print("Stepwise RMSE : ",stepwise_rms)
+    # print("AIC RMSE : ",aic_rms)
+    # print("Simple RMSE : ",Simple_rms)
+
 
