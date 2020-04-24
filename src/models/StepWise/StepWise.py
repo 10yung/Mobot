@@ -47,36 +47,36 @@ class StepWise:
 
 
 if __name__ == '__main__':
- print("Hello")
+    print('### StepWise ###')
 
-# get source
-loader = SourceFactory('csv').generate()
-data = SourceManager(loader).exec('../../../data/preprocessed')[0]
+    # get source
+    loader = SourceFactory('csv').generate()
+    data = SourceManager(loader).exec('../../../data/preprocessed')[0]
 
-# initialize split object
-ratio_splitter = SplitFactory('ratio').generate()
-training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
+    # initialize split object
+    ratio_splitter = SplitFactory('ratio').generate()
+    training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
 
-importer_object = ImporterFactory('csv').generate()
-importer_manager = ImporterManager(importer_object)
-files = [{
-    'dir': '../../../data/preprocessed/',
-    'files': ['covid19_preprocessed.csv']
-}]
-data = importer_manager.exec(files)[0]
+    importer_object = ImporterFactory('csv').generate()
+    importer_manager = ImporterManager(importer_object)
+    files = [{
+        'dir': '../../../data/preprocessed/',
+        'files': ['covid19_preprocessed.csv']
+    }]
+    data = importer_manager.exec(files)[0]
 
-training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
-# print(training.columns)
-
-
-# here we have 2 variables for the multiple linear regression.
-# If you just want to use one variable for simple linear regression, then use X = df['Interest_Rate'] for example
-criteria = {
-    'p_value': 0.05
-}
-predictor_name = ["Health.expenditures....of.GDP.", "Literacy...."]
-response_name = ['Recovery Rate']
+    training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
+    # print(training.columns)
 
 
-model = StepWise(criteria)
-print(model.exec(training, predictor_name, response_name))
+    # here we have 2 variables for the multiple linear regression.
+    # If you just want to use one variable for simple linear regression, then use X = df['Interest_Rate'] for example
+    criteria = {
+        'p_value': 0.05
+    }
+    predictor_name = ["Health.expenditures....of.GDP.", "Literacy...."]
+    response_name = ['Recovery Rate']
+
+
+    model = StepWise(criteria)
+    print(model.exec(training, predictor_name, response_name))
