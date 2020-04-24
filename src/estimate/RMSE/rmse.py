@@ -61,14 +61,14 @@ if __name__ == '__main__':
     simple_model, simple_predictor, simple_result_df = model.exec(training, selected_column_list, ['recovery_rate'])
     simple_y_pred = simple_model.predict(testing[simple_predictor])
     Simple_rms = sqrt(mean_squared_error(testing['recovery_rate'], simple_y_pred))
-
-   
-
+    print(simple_result_df)
 
 
 
-    # print("Stepwise RMSE : ",stepwise_rms)
-    # print("AIC RMSE : ",aic_rms)
-    # print("Simple RMSE : ",Simple_rms)
+
+
+    print("Stepwise RMSE : ",stepwise_rms)
+    print("AIC RMSE : ",aic_rms)
+    print("Simple RMSE : ",Simple_rms)
 
 
