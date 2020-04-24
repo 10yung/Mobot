@@ -16,6 +16,10 @@ from statsmodels.regression.linear_model import OLS
 from statsmodels.tools import add_constant
 from itertools import combinations
 from src.models.AIC.aic import aic
+from src.models.SimpleLm.SimpleLm import SimpleLm
+# from src.models.StepWise.StepWise import StepWise
+
+
 
 
 if __name__ == '__main__':
@@ -37,6 +41,6 @@ training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
 selected_column_list =['health_expend', 'literacy', 'physicians_density', 'obesity',
        'life_expect', 'h_bed_density', 'imigrate_rate']
 
-# aic_object = aic()
-# answer_list = aic.exec( training , selected_column_list, 'recovery_rate')
-# print(answer_list)
+aic_object = aic()
+answer_list = aic.exec( training , selected_column_list, 'recovery_rate')
+print(answer_list)

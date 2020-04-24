@@ -43,7 +43,7 @@ def rSubset(arr, r):
 
 class aic:
 
-    def exec(df: pd.DataFrame, predictor_name_list: list, response_name: str)-> list:
+    def exec(df: pd.DataFrame, predictor_name_list: list, response_name: list)-> list:
 
         aic_info_dict = {}
 
@@ -60,7 +60,7 @@ class aic:
         result_column_name_list = ast.literal_eval(result_columns)
         # result_aic_score = aic_info_dict[result_columns][0]
         result_model = aic_info_dict[result_columns][1]
-        return [result_model,result_column_name_list,df[result_column_name_list] ]
+        return (result_model, result_column_name_list, df[result_column_name_list])
 
 
 if __name__ == '__main__':
@@ -82,9 +82,9 @@ if __name__ == '__main__':
     selected_column_list =['health_expend', 'literacy', 'physicians_density', 'obesity',
            'life_expect', 'h_bed_density', 'imigrate_rate']
 
-    # aic_object = aic()
-    # answer_list = aic.exec( training , selected_column_list, 'recovery_rate')
-    # print(answer_list)
+    aic_object = aic()
+    answer_list = aic.exec( training , selected_column_list, 'recovery_rate')
+    print(answer_list)
 
 
 
