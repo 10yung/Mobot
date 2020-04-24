@@ -19,9 +19,9 @@ class SimpleLm(LinearModelInterface):
     def exec(self, data: pd.DataFrame, predictor_name: list, response_name: list) -> list:
         X = data[predictor_name]
         Y = data[response_name]
-        print(X)
+        # print(X)
         model = sm.OLS(Y, X).fit()
-        print(model.resid)
+        # print(model.resid)
         est_y = model.predict(X).to_frame()
         resid = model.resid.to_frame()
         result_df = pd.concat([Y, est_y, resid], axis=1, sort=False)
@@ -29,7 +29,7 @@ class SimpleLm(LinearModelInterface):
         result_df = result_df.rename(columns={"Recovery Rate": "Recovery_Rate", 0:
             "Residuals"}, inplace = False)
         predictor = model.params.index.to_list()
-        print(predictor)
+        # print(predictor)
         return (model, predictor, result_df)
 
 
