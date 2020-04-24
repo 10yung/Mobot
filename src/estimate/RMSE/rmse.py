@@ -55,13 +55,12 @@ if __name__ == '__main__':
     stepwise_model, stepwise_predictor, stepwise_result_df = model.exec(training, selected_column_list, ['recovery_rate'])
     stepwise_y_pred = stepwise_model.predict(testing[stepwise_predictor])
     stepwise_rms = sqrt(mean_squared_error(testing['recovery_rate'], stepwise_y_pred))
-
+    print(stepwise_result_df)
 
     model = SimpleLm()
     simple_model, simple_predictor, simple_result_df = model.exec(training, selected_column_list, ['recovery_rate'])
     simple_y_pred = simple_model.predict(testing[simple_predictor])
     Simple_rms = sqrt(mean_squared_error(testing['recovery_rate'], simple_y_pred))
-    print(simple_result_df)
 
 
 

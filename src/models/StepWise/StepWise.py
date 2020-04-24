@@ -33,11 +33,15 @@ class StepWise:
             else:
                 # build result
                 est_y = model.predict(X).to_frame()
+                est_y_list = list(est_y.values)
+                est_y = pd.DataFrame(est_y_list)
                 resid = model.resid.to_frame()
+                resid_list = list(resid.values)
+                resid = pd.DataFrame(resid_list)
+                y_list = list(Y.values)
+                Y = pd.DataFrame(y_list)
                 result_df = pd.concat([Y, est_y, resid], axis=1, sort=False)
-                result_df.columns.values[1] = "Est_Recovery_Rate"
-                result_df = result_df.rename(columns={"Recovery Rate": "Recovery_Rate", 0:
-                    "Residuals"}, inplace = False)
+                result_df.columns = ['  Y   ', 'Y_Predicted','Residual']
                 predictor = model.params.index.to_list()
 
                 return (model, predictor, result_df)
