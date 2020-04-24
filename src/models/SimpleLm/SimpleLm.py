@@ -46,6 +46,7 @@ if __name__ == '__main__':
 
     importer_object = ImporterFactory('csv').generate()
     importer_manager = ImporterManager(importer_object)
+
     files = [{
         'dir': '../../../data/preprocessed/',
         'files': ['covid19_preprocessed.csv']
@@ -56,6 +57,7 @@ if __name__ == '__main__':
 
     predictor_name = ["Health.expenditures....of.GDP.", "Literacy...."]
     response_name = ['Recovery Rate']
+
 
     model = SimpleLm()
     result = model.exec(data, predictor_name, response_name)
