@@ -13,11 +13,11 @@ from src.models.Interface.LinearModelInterface import LinearModelInterface
 
 
 class SimpleLm(LinearModelInterface):
-    def __init__(self, predictor_name: list, response_name: list, criteria: dict = None):
+    def __init__(self, predictor_name: list, response_name: list):
         self._predictor_name = predictor_name
         self._response_name = response_name
 
-    def exec(self, data: pd.DataFrame) -> list:
+    def exec(self, data: pd.DataFrame, criteria: dict = None) -> list:
         X = data[self._predictor_name]
         Y = data[self._response_name]
         model = sm.OLS(Y, X).fit()
