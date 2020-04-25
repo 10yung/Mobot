@@ -9,7 +9,7 @@ from src.preprocess.utils.Source.SourceFactory import SourceFactory
 from src.preprocess.utils.Source.SourceManager import SourceManager
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
-from src.models.LinearModelInterface import LinearModelInterface
+from src.models.Interface.LinearModelInterface import LinearModelInterface
 
 
 class SimpleLm(LinearModelInterface):

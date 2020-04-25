@@ -1,7 +1,8 @@
-import sys
-sys.path.append('../../../')
 import ast
 import pandas as pd
+import sys
+sys.path.append('../../../')
+
 from src.split.SplitFactory import SplitFactory
 from src.split.SplitManager import SplitManager
 from src.preprocess.utils.Source.SourceFactory import SourceFactory
@@ -15,6 +16,7 @@ from sklearn.metrics import mean_squared_error
 from statsmodels.regression.linear_model import OLS
 from statsmodels.tools import add_constant
 from itertools import combinations
+from src.models.Interface.LinearModelInterface import LinearModelInterface
 
 
 # calculate aic for regression
@@ -41,9 +43,11 @@ def train_aic_model(X,y):
 def rSubset(arr, r):
     return list(combinations(arr, r))
 
-class aic:
+class AIC(LinearModelInterface):
+    def __init__(self):
+        pass
 
-    def exec(df: pd.DataFrame, predictor_name_list: list, response_name: list)-> list:
+    def exec(self, df: pd.DataFrame, predictor_name_list: list, response_name: list)-> list:
 
         aic_info_dict = {}
 
@@ -94,8 +98,8 @@ if __name__ == '__main__':
     selected_column_list =['health_expend', 'literacy', 'physicians_density', 'obesity',
            'life_expect', 'h_bed_density', 'imigrate_rate']
 
-    aic_object = aic()
-    answer_list = aic.exec( training , selected_column_list, 'recovery_rate')
+    aic_object = AIC()
+    answer_list = aic_object.exec( training , selected_column_list, 'recovery_rate')
     print(answer_list)
 
 
