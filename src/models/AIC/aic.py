@@ -60,7 +60,19 @@ class aic:
         result_column_name_list = ast.literal_eval(result_columns)
         # result_aic_score = aic_info_dict[result_columns][0]
         result_model = aic_info_dict[result_columns][1]
-        return (result_model, result_column_name_list, df[result_column_name_list])
+        est_y = result_model.predict(df[result_column_name_list])
+        y_list = list(df[response_name].values)
+        y = pd.DataFrame(y_list)
+        est_y_list = list(est_y)
+        est_y = pd.DataFrame(est_y_list)
+        # print(est_y)
+        resid= [x - y for x, y in zip(y_list, est_y_list)]
+        resid = pd.DataFrame(resid)
+        # print(resid)
+        result_df = pd.concat([y, est_y,resid], axis=1)
+        result_df.columns = ['  Y   ', 'Y_Predicted','Residual']
+
+        return (result_model, result_column_name_list, result_df)
 
 
 if __name__ == '__main__':
