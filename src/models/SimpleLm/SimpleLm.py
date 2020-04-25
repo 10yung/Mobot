@@ -13,12 +13,13 @@ from src.models.Interface.LinearModelInterface import LinearModelInterface
 
 
 class SimpleLm(LinearModelInterface):
-    def __init__(self):
-        pass
+    def __init__(self, predictor_name: list, response_name: list, criteria: dict = None):
+        self._predictor_name = predictor_name
+        self._response_name = response_name
 
-    def exec(self, data: pd.DataFrame, predictor_name: list, response_name: list) -> list:
-        X = data[predictor_name]
-        Y = data[response_name]
+    def exec(self, data: pd.DataFrame) -> list:
+        X = data[self._predictor_name]
+        Y = data[self._response_name]
         model = sm.OLS(Y, X).fit()
         est_y = model.predict(X).to_frame()
         est_y_list = list(est_y.values)
@@ -61,6 +62,6 @@ if __name__ == '__main__':
     response_name = ['Recovery Rate']
 
 
-    model = SimpleLm()
-    result = model.exec(data, predictor_name, response_name)
+    model = SimpleLm(predictor_name, response_name)
+    result = model.exec(data)
     print(result)

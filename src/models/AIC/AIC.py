@@ -44,18 +44,19 @@ def rSubset(arr, r):
     return list(combinations(arr, r))
 
 class AIC(LinearModelInterface):
-    def __init__(self):
-        pass
+    def __init__(self, predictor_name: list, response_name: list, criteria: dict = None):
+        self._predictor_name = predictor_name
+        self._response_name = response_name
 
-    def exec(self, df: pd.DataFrame, predictor_name_list: list, response_name: list)-> list:
+    def exec(self, df: pd.DataFrame)-> list:
 
         aic_info_dict = {}
 
-        for x in range(len(predictor_name_list)):
-            for column_tuple in rSubset(predictor_name_list, x):
+        for x in range(len(self._predictor_name)):
+            for column_tuple in rSubset(self._predictor_name, x):
                 column_list = list(column_tuple)
                 X = df[column_list]
-                y= df[response_name]
+                y= df[self._response_name]
                 if X.shape[1] != 0:
                     aic_score,model = train_aic_model(X,y)
                     aic_info_dict[str(column_list)] = aic_score,model
@@ -65,7 +66,7 @@ class AIC(LinearModelInterface):
         # result_aic_score = aic_info_dict[result_columns][0]
         result_model = aic_info_dict[result_columns][1]
         est_y = result_model.predict(df[result_column_name_list])
-        y_list = list(df[response_name].values)
+        y_list = list(df[self._response_name].values)
         y = pd.DataFrame(y_list)
         est_y_list = list(est_y)
         est_y = pd.DataFrame(est_y_list)
@@ -95,12 +96,12 @@ if __name__ == '__main__':
     training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
 
 
-    selected_column_list =['health_expend', 'literacy', 'physicians_density', 'obesity',
+    selected_column =['health_expend', 'literacy', 'physicians_density', 'obesity',
            'life_expect', 'h_bed_density', 'imigrate_rate']
 
-    aic_object = AIC()
-    answer_list = aic_object.exec( training , selected_column_list, 'recovery_rate')
-    print(answer_list)
+    aic_object = AIC(selected_column, ['recovery_rate'])
+    result = aic_object.exec(training)
+    print(result)
 
 
 

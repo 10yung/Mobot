@@ -15,13 +15,15 @@ from src.models.Interface.LinearModelInterface import LinearModelInterface
 
 
 class StepWise(LinearModelInterface):
-    def __init__(self, criteria: dict):
+    def __init__(self, predictor_name: list, response_name: list, criteria: dict = None):
         self._criteria = criteria
+        self._predictor_name = predictor_name
+        self._response_name = response_name
 
-    def exec(self, data: pd.DataFrame, predictor_name: list, response_name: list) -> list:
+    def exec(self, data: pd.DataFrame) -> list:
         while True:
-            X = data[predictor_name]
-            Y = data[response_name]
+            X = data[self._predictor_name]
+            Y = data[self._response_name]
             model = sm.OLS(Y, X).fit()
 
             results_as_html = model.summary().tables[1].as_html()
@@ -31,7 +33,7 @@ class StepWise(LinearModelInterface):
                 max_p = not_satisfy_predictor['P>|t|'].max()
                 new_predictor_df = result[result['P>|t|'] != max_p]
                 new_predictor = list(new_predictor_df.index)
-                predictor_name = new_predictor
+                self._predictor_name = new_predictor
 
             else:
                 # build result
@@ -85,5 +87,6 @@ if __name__ == '__main__':
     response_name = ['Recovery Rate']
 
 
-    model = StepWise(criteria)
-    print(model.exec(training, predictor_name, response_name))
+    model = StepWise(predictor_name, response_name, criteria)
+    result = model.exec(training)
+    print(result)
