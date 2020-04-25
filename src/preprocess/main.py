@@ -16,7 +16,7 @@ class Preprocess:
 
     def exec(self):
         """
-        execute whole process
+        execute whole preprocess
         """
         # create register container
         preprocess_command_register = PreprocessCommandContainer()
