@@ -1,6 +1,6 @@
 ,model_name,response,predictors,criteria
-0,AIC,Recovery Rate,Literacy....,
-1,SimpleLm,Recovery Rate,Health.expenditures....of.GDP. Literacy....,
-2,StepWise_0.05,Recovery Rate,Literacy....,p_value 0.05
-3,StepWise_0.01,Recovery Rate,Literacy....,p_value 0.01
-4,StepWise_0.02,Recovery Rate,Literacy....,p_value 0.02
+0,AIC,['Recovery Rate'],Literacy....,
+1,SimpleLm,['Recovery Rate'],Health.expenditures....of.GDP. Literacy....,
+2,StepWise_0.05,['Recovery Rate'],Literacy....,p_value 0.05
+3,StepWise_0.01,['Recovery Rate'],Literacy....,p_value 0.01
+4,StepWise_0.02,['Recovery Rate'],Literacy....,p_value 0.02
