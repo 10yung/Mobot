@@ -1,5 +1,6 @@
 import pandas as pd
 import sys
+
 sys.path.append('../../')
 
 from src.split.SplitFactory import SplitFactory
@@ -12,6 +13,7 @@ from src.utils.Exporter.ExportFactory import ExportFactory
 from src.utils.Exporter.ExportManager import ExportManager
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
+
 
 
 if __name__ == '__main__':
@@ -31,17 +33,17 @@ if __name__ == '__main__':
             'criteria': {
                 'p_value': 0.05
             }
-        },{
+        }, {
             'name': 'StepWise',
             'criteria': {
                 'p_value': 0.01
             }
-        },{
+        }, {
             'name': 'StepWise',
             'criteria': {
                 'p_value': 0.02
             }
-        },]
+        }, ]
     }
 
     # get source
@@ -58,7 +60,6 @@ if __name__ == '__main__':
     ratio_splitter = SplitFactory('ratio').generate()
     training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
 
-
     # register models
     model_register = ModelRegister()
 
@@ -70,7 +71,8 @@ if __name__ == '__main__':
 
     for model in model_exec_plan['experiments']:
         model_name = model['name']
-        model_register.register(model_name, model_map[model_name],model_exec_plan['predictor_name'], model_exec_plan['response_name'] )
+        model_register.register(model_name, model_map[model_name], model_exec_plan['predictor_name'],
+                                model_exec_plan['response_name'])
 
     # execute models base on execution plan
     model_table = {}
@@ -85,51 +87,13 @@ if __name__ == '__main__':
             criteria = key + ' ' + str(value)
             model_name = model['name'] + '_' + str(value)
 
-        model_table[model_name] =[model_exec_plan['response_name'], ' '.join(result[1]), criteria]
-
-
-#     for model in model_exec_plan['experiments']:
-#         # AIC
-#         if model['name'] == 'AIC':
-#             aic_object = AIC()
-#             aic_result_list = aic_object.exec(training, model_exec_plan['predictor_name'],
-#                                        model_exec_plan['response_name'])
-#             aic_result_model = model['name']
-#             aic_result_x = aic_result_list[1]
-#             aic_result_x = ' '.join(aic_result_x)
-#             aic_result_y = model_exec_plan['response_name'][0]
-#             model_table[aic_result_model] =[aic_result_y, aic_result_x,'']
-#
-#         # Simple Linear Regression
-#         elif model['name'] == 'SimpleLm':
-#             simple_object = SimpleLm()
-#             simple_result_list = simple_object.exec(data, model_exec_plan['predictor_name'],
-#                                                     model_exec_plan['response_name'])
-#             simple_result_model = model['name']
-#             simple_result_x = simple_result_list[1]
-#             simple_result_x = ' '.join(simple_result_x)
-#             simple_result_y = model_exec_plan['response_name'][0]
-#             model_table[simple_result_model] =[simple_result_y, simple_result_x,'']
-#
-#         # StepWise
-#         elif model['name'] == 'StepWise':
-#             stepwise_object = StepWise(model['criteria'])
-#             sw_result_list = stepwise_object.exec(training, model_exec_plan['predictor_name'],
-#                                                   model_exec_plan['response_name'])
-#             key, value = list(model['criteria'].items())[0]
-#             simple_result_model = model['name']+ '_' + str(value)
-#             sw_result_x = sw_result_list[1]
-#             sw_result_x = ' '.join(sw_result_x)
-#             sw_result_y = model_exec_plan['response_name'][0]
-#             p_val = key + ' ' + str(value)
-#             model_table[simple_result_model] =[sw_result_y, sw_result_x, p_val]
+        model_table[model_name] = [model_exec_plan['response_name'], ' '.join(result[1]), criteria]
 
     model_table = pd.DataFrame.from_dict(model_table, orient='index', columns=['response', 'predictors', 'criteria'])
     model_table = model_table.reset_index()
-    model_table.columns = ['model_name','response', 'predictors', 'criteria']
+    model_table.columns = ['model_name', 'response', 'predictors', 'criteria']
     # print(model_table)
 
     loader = ExportFactory('csv').generate()
     saver = ExportManager(loader)
     saver.exec(model_table, '../../data/model', 'covid19_modeled')
-
