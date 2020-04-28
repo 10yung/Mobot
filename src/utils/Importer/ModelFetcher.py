@@ -7,17 +7,25 @@ from src.utils.Importer.ImporterInterface import ImporterInterface
 
 
 class ModelFetcher(ImporterInterface):
-    def fetch(self, profile):
-        model = load(profile)
-        return model
 
-
+    def fetch(self, profiles:list):
+        for profile in profiles:
+            for file_name in profile['files']:
+                    file = profile['dir']+file_name
+                    model = load(file)
+                    return model
 
 
 if __name__ == '__main__':
     print("Hello")
     print("=====")
 
+    files = [{
+        'dir': '../../../data/model/models/',
+        'files': ["sklearn_AIC.pkl"]
+    }]
+
+
     model_fetcher = ModelFetcher()
-    aic_test = model_fetcher.fetch("../../../data/model/aic_model_test")
+    aic_test = model_fetcher.fetch(files)
     print(aic_test)

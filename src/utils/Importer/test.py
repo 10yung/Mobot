@@ -18,13 +18,14 @@ if __name__ == '__main__':
     # importer_manager.exec(files)
     # print(importer_manager.exec(files))
 
+    files = [{
+        'dir': '../../../data/model/models/',
+        'files': ["sklearn_AIC.pkl"]
+    }]
 
-    importer_object = ImporterFactory('model').generate()
-    print(importer_object)
-    importer_manager = ImporterManager(importer_object)
-    # files = "../../../data/model/aic_model_test"
-    print(importer_manager)
-    aic_model_test = importer_manager.exec("../../../data/model/aic_model_test")
+    fetcher_object = ImporterFactory('model').generate()
+    importer_manager = ImporterManager(fetcher_object)
+    aic_model_test = importer_manager.exec(files)
     print(aic_model_test)
 
 
