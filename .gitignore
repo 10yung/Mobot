@@ -131,3 +131,6 @@ dmypy.json
 # Mac file
 .DS_Store
 .idea/
+
+# Data
+data/model/models
