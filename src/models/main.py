@@ -13,6 +13,8 @@ from src.utils.Exporter.ExportFactory import ExportFactory
 from src.utils.Exporter.ExportManager import ExportManager
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
+from src.utils.Exporter.ModelExporter import ModelExporter
+
 
 
 
@@ -86,6 +88,10 @@ if __name__ == '__main__':
             key, value = list(model['criteria'].items())[0]
             criteria = key + ' ' + str(value)
             model_name = model['name'] + '_' + str(value)
+
+        model_exporter  = ExportFactory('model').generate()
+        exporter =  ExportManager(model_exporter)
+        exporter.exec(result[0], '../../data/model/models', model_name)
 
         model_table[model_name] = [model_exec_plan['response_name'], ' '.join(result[1]), criteria]
 
