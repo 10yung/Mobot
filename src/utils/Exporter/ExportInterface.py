@@ -7,6 +7,7 @@ class ExportInterface(ABC):
     """
         Define the interface of each exporter
     """
+    @staticmethod
     @abstractmethod
-    def save_file(data: Any, target_dir: str, file_name: str):
+    def save_file(target: Any, target_dir: str, file_name: str):
         pass

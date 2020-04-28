@@ -1,7 +1,9 @@
-from src.utils.Interface.FactoryInterface import FactoryInterface
-from src.utils.Exporter.CSV_Exporter import CSV_Exporter
 import sys
 sys.path.append('../../../')
+
+from src.utils.Interface.FactoryInterface import FactoryInterface
+from src.utils.Exporter.CsvExporter import CsvExporter
+from src.utils.Exporter.ModelExporter import ModelExporter
 
 
 class ExportFactory(FactoryInterface):
@@ -15,7 +17,8 @@ class ExportFactory(FactoryInterface):
     def generate(self):
         try:
             export_map = {
-                'csv': CSV_Exporter
+                'csv': CsvExporter,
+                'model': ModelExporter
             }
             return export_map[self._object_name]()
 
