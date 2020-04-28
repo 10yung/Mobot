@@ -3,6 +3,8 @@ sys.path.append('../../../../')
 
 from src.preprocess.utils.Interface.FactoryInterface import FactoryInterface
 from src.utils.Importer.CsvFetcher import CsvFetcher
+from src.utils.Importer.ModelFetcher import ModelFetcher
+
 
 
 class ImporterFactory(FactoryInterface):
@@ -16,7 +18,8 @@ class ImporterFactory(FactoryInterface):
     def generate(self):
         try:
             source_map = {
-                'csv': CsvFetcher
+                'csv': CsvFetcher,
+                'model' : ModelFetcher
             }
             return source_map[self._object_name]()
 
