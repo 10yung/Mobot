@@ -9,11 +9,14 @@ from src.utils.Importer.ImporterInterface import ImporterInterface
 class ModelFetcher(ImporterInterface):
 
     def fetch(self, profiles:list):
+        model_list=[]
         for profile in profiles:
             for file_name in profile['files']:
                     file = profile['dir']+file_name
                     model = load(file)
-                    return model
+                    model_list.append(model)
+
+        return model_list
 
 
 if __name__ == '__main__':
@@ -22,7 +25,7 @@ if __name__ == '__main__':
 
     files = [{
         'dir': '../../../data/model/models/',
-        'files': ["sklearn_AIC.pkl"]
+        'files': ["sklearn_AIC.pkl","statsmodels_SimpleLm","statsmodels_StepWise_0.1","statsmodels_StepWise_0.01","statsmodels_StepWise_0.02"]
     }]
 
 

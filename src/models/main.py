@@ -22,7 +22,7 @@ if __name__ == '__main__':
     print('### Model Main ###')
 
     model_exec_plan = {
-        'predictor_name': ["Health.expenditures....of.GDP.", "Literacy...."],
+        'predictor_name': ["Health.expenditures....of.GDP.","Literacy....","Physicians.density..physicians.1.000.population.","Obesity - adult prevalence rate (%)","Life expectancy at birth (years)","H_bed_density","Imigrate_Rate","Pop_Density","GDP - per capita (PPP) (US$)","Unemployment rate (%)"],
         'response_name': ['Recovery Rate'],
         'experiments': [{
             'name': 'AIC',
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         }, {
             'name': 'StepWise',
             'criteria': {
-                'p_value': 0.05
+                'p_value': 0.1
             }
         }, {
             'name': 'StepWise',
@@ -93,7 +93,7 @@ if __name__ == '__main__':
         exporter =  ExportManager(model_exporter)
         exporter.exec(result[0], '../../data/model/models', model_name)
 
-        model_table[model_name] = [model_exec_plan['response_name'], ' '.join(result[1]), criteria]
+        model_table[model_name] = [model_exec_plan['response_name'], '/'.join(result[1]), criteria]
 
     model_table = pd.DataFrame.from_dict(model_table, orient='index', columns=['response', 'predictors', 'criteria'])
     model_table = model_table.reset_index()
@@ -102,4 +102,4 @@ if __name__ == '__main__':
 
     loader = ExportFactory('csv').generate()
     saver = ExportManager(loader)
-    saver.exec(model_table, '../../data/model', 'covid19_modeled')
+    saver.exec(model_table, '../../data/model', 'covid19_modeled1')
