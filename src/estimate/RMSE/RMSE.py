@@ -27,18 +27,10 @@ from joblib import dump, load
 class RMSE:
 
     @staticmethod
-    def get_rmse(testing, data: pd.DataFrame, model_list:list):
-        rmse_list =[]
-        data_dict = data.to_dict()
-        model_dict = {v : k for v, k in enumerate(model_list)}
-        for (index,response), (index,predictors),(index,model) in zip(data_dict['response'].items(), data_dict['predictors'].items(),model_dict.items()):
-            predictors = predictors.split('/')
+    def get_rmse(testing, predictors:list, response:list,model):
             y_pred = model.predict(testing[predictors])
-            response = response.strip("'][").split(', ')
-            # print(response)
             rmse = sqrt(mean_squared_error(testing[response], y_pred))
-            rmse_list.append(rmse)
-        return rmse_list
+            return rmse
 
 
 if __name__ == '__main__':
@@ -60,28 +52,45 @@ if __name__ == '__main__':
 
 
 
-    # get model list
+    # # get model list
+    # model_files = [{
+    #     'dir': '../../../data/model/models/',
+    #     'files': ["sklearn_AIC.pkl","statsmodels_SimpleLm","statsmodels_StepWise_0.1","statsmodels_StepWise_0.01","statsmodels_StepWise_0.02"]
+    # }]
+    # fetcher_object = ImporterFactory('model').generate()
+    # model_object = ImporterManager(fetcher_object)
+    # model_list_test = model_object.exec(model_files)
+    # # model_dict = {v : k for v, k in enumerate(model_list_test)}
+    # # print(model_dict)
+    #
+    # # get model info and to dict
+    # importer_object = ImporterFactory('csv').generate()
+    # csv_fetcher_object = ImporterManager(importer_object)
+    # model_info = [{
+    #     'dir': '../../../data/model/',
+    #     'files': ['covid19_modeled1.csv']
+    # }]
+    # data = csv_fetcher_object.exec(model_info)[0]
+    # print(type(data))
+
+
     model_files = [{
         'dir': '../../../data/model/models/',
-        'files': ["sklearn_AIC.pkl","statsmodels_SimpleLm","statsmodels_StepWise_0.1","statsmodels_StepWise_0.01","statsmodels_StepWise_0.02"]
+        'files': ["sklearn_AIC.pkl"]
     }]
     fetcher_object = ImporterFactory('model').generate()
     model_object = ImporterManager(fetcher_object)
     model_list_test = model_object.exec(model_files)
-    # model_dict = {v : k for v, k in enumerate(model_list_test)}
-    # print(model_dict)
 
-    # get model info and to dict
-    importer_object = ImporterFactory('csv').generate()
-    csv_fetcher_object = ImporterManager(importer_object)
-    model_info = [{
-        'dir': '../../../data/model/',
-        'files': ['covid19_modeled1.csv']
-    }]
-    data = csv_fetcher_object.exec(model_info)[0]
-    print(type(data))
+    print(model_list_test[0])
+
+
+    predictors_list = ['Health.expenditures....of.GDP.', 'Literacy....', 'Physicians.density..physicians.1.000.population.', 'Obesity - adult prevalence rate (%)', 'Life expectancy at birth (years)', 'H_bed_density', 'Imigrate_Rate', 'Pop_Density', 'GDP - per capita (PPP) (US$)']
+    response_list =['Recovery Rate']
+
+
     RMSE = RMSE()
-    answer = RMSE.get_rmse(testing,data,model_list_test)
+    answer = RMSE.get_rmse(testing,predictors_list,response_list,model_list_test[0])
     print(answer)
 
 
