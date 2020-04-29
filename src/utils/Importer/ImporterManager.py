@@ -15,7 +15,7 @@ class ImporterManager(ManagerInterface):
     def __init__(self, source_type: SourceType):
         self._source_type = source_type
 
-    def exec(self, profile: dict):
+    def exec(self, profile: list):
         return self._source_type.fetch(profile)
 
 
