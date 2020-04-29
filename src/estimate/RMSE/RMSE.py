@@ -22,23 +22,20 @@ from sklearn.metrics import mean_squared_error
 from joblib import dump, load
 
 
-
-
 class RMSE:
-
     @staticmethod
-    def get_rmse(testing, predictors:list, response:list,model):
-            y_pred = model.predict(testing[predictors])
-            rmse = sqrt(mean_squared_error(testing[response], y_pred))
+    def get_rmse(testing_data: pd.DataFrame, predictors: list, response: list, model):
+            y_pred = model.predict(testing_data[predictors])
+            rmse = sqrt(mean_squared_error(testing_data[response], y_pred))
             return rmse
 
 
 if __name__ == '__main__':
-    print("Hello")
+    print("Test")
     print("=====")
 
 
-    # fetch csv file and split train/testing
+    # Fetch csv file and split train/testing
     ratio_splitter = SplitFactory('ratio').generate()
     importer_object = ImporterFactory('csv').generate()
     csv_fetcher_object = ImporterManager(importer_object)
@@ -48,103 +45,23 @@ if __name__ == '__main__':
     }]
     data = csv_fetcher_object.exec(files)[0]
     training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
-    # print(testing)
 
 
-
-    # # get model list
-    # model_files = [{
-    #     'dir': '../../../data/model/models/',
-    #     'files': ["sklearn_AIC.pkl","statsmodels_SimpleLm","statsmodels_StepWise_0.1","statsmodels_StepWise_0.01","statsmodels_StepWise_0.02"]
-    # }]
-    # fetcher_object = ImporterFactory('model').generate()
-    # model_object = ImporterManager(fetcher_object)
-    # model_list_test = model_object.exec(model_files)
-    # # model_dict = {v : k for v, k in enumerate(model_list_test)}
-    # # print(model_dict)
-    #
-    # # get model info and to dict
-    # importer_object = ImporterFactory('csv').generate()
-    # csv_fetcher_object = ImporterManager(importer_object)
-    # model_info = [{
-    #     'dir': '../../../data/model/',
-    #     'files': ['covid19_modeled1.csv']
-    # }]
-    # data = csv_fetcher_object.exec(model_info)[0]
-    # print(type(data))
-
-
+    # Import Model
     model_files = [{
         'dir': '../../../data/model/models/',
-        'files': ["sklearn_AIC.pkl"]
+        'files': ["AIC"]
     }]
     fetcher_object = ImporterFactory('model').generate()
     model_object = ImporterManager(fetcher_object)
     model_list_test = model_object.exec(model_files)
 
-    print(model_list_test[0])
-
-
+    # Test Parameters
     predictors_list = ['Health.expenditures....of.GDP.', 'Literacy....', 'Physicians.density..physicians.1.000.population.', 'Obesity - adult prevalence rate (%)', 'Life expectancy at birth (years)', 'H_bed_density', 'Imigrate_Rate', 'Pop_Density', 'GDP - per capita (PPP) (US$)']
     response_list =['Recovery Rate']
 
-
-    RMSE = RMSE()
-    answer = RMSE.get_rmse(testing,predictors_list,response_list,model_list_test[0])
+    # Test Class Static Method
+    RMSE_Object = RMSE()
+    answer = RMSE_Object.get_rmse(testing,predictors_list,response_list,model_list_test[0])
     print(answer)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # selected_column_list =['health_expend', 'literacy', 'physicians_density', 'obesity',
-    #        'life_expect', 'h_bed_density', 'imigrate_rate']
-
-    # aic_object = AIC(selected_column_list, ['recovery_rate'])
-    # aic_model, aic_predictor, aic_result_df = aic_object.exec( training )
-    # aic_y_pred = aic_model_test.predict(testing[aic_predictor])
-    # # aic_rms = sqrt(mean_squared_error(testing['recovery_rate'], aic_y_pred))
-    # # print(aic_rms)
-    # RMSE =RMSE()
-    # answer = RMSE.get_rmse(testing,aic_predictor,'recovery_rate',aic_model_test)
-    # print(answer)
-
-    # criteria = {
-    #     'p_value': 0.05
-    # }
-    # model = StepWise(selected_column_list,['recovery_rate'])
-    # stepwise_model, stepwise_predictor, stepwise_result_df = model.exec(training,criteria )
-    #
-    #
-    #
-    # answer1 = RMSE.get_rmse(testing,stepwise_predictor,'recovery_rate',sk_model)
-    # print(answer1)
-
-    # stepwise_y_pred = stepwise_model.predict(testing[stepwise_predictor])
-    # stepwise_rms = sqrt(mean_squared_error(testing['recovery_rate'], stepwise_y_pred))
-    # # print(stepwise_result_df)
-    #
-    # model = SimpleLm()
-    # simple_model, simple_predictor, simple_result_df = model.exec(training, selected_column_list, ['recovery_rate'])
-    # simple_y_pred = simple_model.predict(testing[simple_predictor])
-    # Simple_rms = sqrt(mean_squared_error(testing['recovery_rate'], simple_y_pred))
-
-
-
-
-
-    # print("Stepwise RMSE : ",stepwise_rms)
-    # print("AIC RMSE : ",aic_rms)
-    # print("Simple RMSE : ",Simple_rms)
 

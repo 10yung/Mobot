@@ -29,7 +29,7 @@ from src.utils.Exporter.CsvExporter import CsvExporter
 
 
 if __name__ == '__main__':
-    print("Hello")
+    print("Test")
     print("=====")
 
 
@@ -43,22 +43,9 @@ if __name__ == '__main__':
     }]
     data = csv_fetcher_object.exec(files)[0]
     training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
-    # print(testing)
 
 
-
-    # get model list
-    # model_files = [{
-    #     'dir': '../../../data/model/models/',
-    #     'files': ["sklearn_AIC.pkl","statsmodels_SimpleLm","statsmodels_StepWise_0.1","statsmodels_StepWise_0.01","statsmodels_StepWise_0.02"]
-    # }]
-    # fetcher_object = ImporterFactory('model').generate()
-    # model_object = ImporterManager(fetcher_object)
-    # model_list_test = model_object.exec(model_files)
-    # model_dict = {v : k for v, k in enumerate(model_list_test)}
-    # print(model_dict)
-
-    # get model info and to dict
+    # Get model info data and to dict
     importer_object = ImporterFactory('csv').generate()
     csv_fetcher_object = ImporterManager(importer_object)
     model_info = [{
@@ -66,15 +53,15 @@ if __name__ == '__main__':
         'files': ['covid19_modeled1.csv']
     }]
     data = csv_fetcher_object.exec(model_info)[0]
-
     data_dict = data.to_dict()
-    # print(data_dict)
 
+
+    # Build Model Name List Using Model Info Data
     model_name_list =[]
     for index,model in data_dict['model_name'].items():
         model_name_list.append(model)
-    print(model_name_list)
 
+    # Import a list of models and convert to dict
     model_files = [{
     'dir': '../../data/model/models/',
     'files': model_name_list
@@ -83,13 +70,12 @@ if __name__ == '__main__':
     model_object = ImporterManager(fetcher_object)
     model_list_test = model_object.exec(model_files)
     model_dict = {v : k for v, k in enumerate(model_list_test)}
-    print(model_dict)
 
 
-
+    # Init RMSE Object
     RMSE = RMSE()
 
-
+    # Get a list of RMSE
     rmse_list =[]
     for (index,response), (index,predictors),(index,model) in zip(data_dict['response'].items(), data_dict['predictors'].items(),model_dict.items()):
         predictors = predictors.split('/')
@@ -97,12 +83,11 @@ if __name__ == '__main__':
         rmse = RMSE.get_rmse(testing,predictors,response,model)
         rmse_list.append(rmse)
 
+    # Concat model info dataframe and rmse dataframe
     rmse_df = pd.DataFrame(rmse_list,columns = ['rmse'])
-
-
     result_df = pd.concat([data, rmse_df], axis=1)
-    print(result_df)
 
+    # Export Result Dataframe
     csv_exporter  = ExportFactory('csv').generate()
     exporter =  ExportManager(csv_exporter)
     exporter.exec(result_df, '../../data/estimate', "estimated_model_data")
