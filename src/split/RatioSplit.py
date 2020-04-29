@@ -7,8 +7,8 @@ from src.split.SplitInterface import SplitInterface
 
 
 class RatioSplit(SplitInterface):
-    def split(self, dataframe: pd.DataFrame, ratio: float,) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        training = dataframe.sample(frac=ratio, random_state=0)
+    def split(self, dataframe: pd.DataFrame, criteria: dict) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        training = dataframe.sample(frac=criteria['ratio'], random_state=0)
         testing = dataframe.drop(training.index)
         return training, testing
 

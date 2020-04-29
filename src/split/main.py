@@ -1,67 +1,69 @@
 import sys
-import pandas as pd
-
 sys.path.append('../../')
 
 from src.split.SplitFactory import SplitFactory
 from src.split.SplitManager import SplitManager
-from src.preprocess.utils.Source.SourceFactory import SourceFactory
-from src.preprocess.utils.Source.SourceManager import SourceManager
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
+from src.utils.Exporter.ExportFactory import ExportFactory
+from src.utils.Exporter.ExportManager import ExportManager
+
+
+class Split:
+    def __init__(self, exec_plan: dict):
+        self._exec_plan = exec_plan
+
+    def exec(self) -> None:
+        """
+        Split data into test training set and save into split folder
+        :return: None
+        """
+
+        # ----------
+        # get data from preprocessed file
+        # ----------
+        importer_object = ImporterFactory('csv').generate()
+        importer_manager = ImporterManager(importer_object)
+        data = importer_manager.exec(self._exec_plan['source_dir'])[0]
+
+        # ----------
+        # split data
+        # ----------
+        splitter = SplitFactory(self._exec_plan['method']).generate()
+        training, testing = SplitManager(splitter).exec(data, self._exec_plan['criteria'])
+
+        # ----------
+        # save file
+        # ----------
+        loader = ExportFactory('csv').generate()
+        saver = ExportManager(loader)
+        saver.exec(training.reset_index(drop=True), self._exec_plan['target']['dir'], 'training')
+        saver.exec(testing.reset_index(drop=True), self._exec_plan['target']['dir'], 'testing')
+        print('Save training testing split file!')
 
 
 
 if __name__ == '__main__':
-    print('### Split Main File')
-
-    data = {'First_Name':  ["Henry","Andy","Jane"],
-            'Last_name': ["Liang", "Lin","Su"],
-            'Country_name' :["Taiwan","Taiwan","Japan"]
-            }
-
-    df_test = pd.DataFrame(data, columns = ['First_Name','Last_name','Country_name'])
-
-    test_dict = {
-        "column_name" : "Country_name",
-        "train_values": ["Taiwan"],
-        "test_values": ["Japan"]
+    print('### Split Main File ###')
+    split_exec_plan = {
+        'source_dir': [{
+            'dir': '../../data/preprocessed/',
+            'files': ['covid19_preprocessed.csv']
+        }],
+        'target': {
+            'dir': '../../data/split'
+        },
+        'method': 'ratio',
+        'criteria': {
+            'ratio': 0.8
+            # "column_name" : "criteria column",
+            # "train_values": ["Training data value1", ""Training data value2""],
+            # "test_values": ["Testing data value1"]
+        }
     }
 
-    # TODO: this will change to Importer object
-    # get source
-    loader = SourceFactory('csv').generate()
-    data = SourceManager(loader).exec('../../data/preprocessed')[0]
+    # init split object
+    splitter = Split(split_exec_plan)
+    splitter.exec()
 
-    # initialize split object
-    ratio_splitter = SplitFactory('ratio').generate()
-    column_splitter = SplitFactory('column').generate()
-
-    training, testing = SplitManager(column_splitter).exec(df_test,test_dict)
-    print(training)
-    print(testing)
-
-
-    # execute split function
-    training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
-    # print(training)
-    # print(testing)
-
-    importer_object = ImporterFactory('csv').generate()
-    importer_manager = ImporterManager(importer_object)
-    files = [{
-        'dir': '../../data/source/',
-        'files': ['he_li_pd.csv', 'death_recovery_gdp_unemp_withnan.csv']
-    }, {
-        'dir': '../../data/preprocessed/',
-        'files': ['covid_19.csv']
-    }]
-    list_from_importer = importer_manager.exec(files)
-    # print(list_from_importer)
-
-
-    df_from_importer = pd.DataFrame(list_from_importer[0])
-    training, testing = SplitManager(ratio_splitter).exec(df_from_importer, 0.8)
-    print(training)
-    print(testing)
 

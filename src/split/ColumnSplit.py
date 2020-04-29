@@ -7,7 +7,7 @@ from src.split.SplitInterface import SplitInterface
 
 
 class ColumnSplit(SplitInterface):
-    def split(self,dataframe: pd.DataFrame, key_info_dict :dict ) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    def split(self, dataframe: pd.DataFrame, key_info_dict: dict) -> Tuple[pd.DataFrame, pd.DataFrame]:
             key_column = key_info_dict["column_name"]
             train_values = key_info_dict["train_values"]
             test_values = key_info_dict["test_values"]
@@ -27,13 +27,4 @@ data = {'First_Name':  ["Henry","Andy","Jane"],
         'Country_name' :["Taiwan","Taiwan","Japan"]
         }
 
-df_test = pd.DataFrame(data, columns = ['First_Name','Last_name','Country_name'])
-
-
-
-# column_splitter = SplitFactory('column').generate()
-# print(column_splitter)
-# SplitManager(column_splitter).exec_1(df_test,'Country_name',["Taiwan"])
-#
-# print(training)
-# print(testing)
+df_test = pd.DataFrame(data, columns=['First_Name','Last_name','Country_name'])
