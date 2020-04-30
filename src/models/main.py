@@ -3,8 +3,6 @@ import sys
 
 sys.path.append('../../')
 
-from src.split.SplitFactory import SplitFactory
-from src.split.SplitManager import SplitManager
 from src.models.ModelRegister import ModelRegister
 from src.models.AIC.AIC import AIC
 from src.models.SimpleLm.SimpleLm import SimpleLm
@@ -13,16 +11,93 @@ from src.utils.Exporter.ExportFactory import ExportFactory
 from src.utils.Exporter.ExportManager import ExportManager
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
-from src.utils.Exporter.ModelExporter import ModelExporter
 
 
+class Model:
+    def __init__(self, exec_plan: dict):
+        self._exec_plan = exec_plan
+
+    def exec(self):
+        """
+        train model base on the experiments from execution plan
+        :return:
+        """
+        # get source
+        importer = ImporterFactory('csv').generate()
+        importer_manager = ImporterManager(importer)
+        data = importer_manager.exec(self._exec_plan['source_dir'])[0]
+
+        # -----
+        # import model and register model in command container
+        #  TODO: import module dynamically
+        # -----
+        model_map = {
+            'AIC': AIC,
+            'StepWise': StepWise,
+            'SimpleLm': SimpleLm
+        }
+
+        model_register = ModelRegister()
+
+        for model in model_exec_plan['experiments']:
+            model_name = model['name']
+            model_register.register(model_name, model_map[model_name], model_exec_plan['predictor_name'],
+                                    self._exec_plan['response_name'])
+
+        # -----
+        # Train model from register container
+        # -----
+        model_table = {}
+        for model in self._exec_plan['experiments']:
+            result = model_register.exec(model['name'], data, model['criteria'])
+
+            # concat model name from criteria and model type
+            if len(model['criteria'].items()) == 0:
+                criteria = ''
+                model_name = model['name']
+            else:
+                key, value = list(model['criteria'].items())[0]
+                criteria = key + ' ' + str(value)
+                model_name = model['name'] + '_' + str(value)
+
+            model_exporter = ExportFactory('model').generate()
+            exporter = ExportManager(model_exporter)
+            exporter.exec(result[0], self._exec_plan['models_target']['dir'], model_name)
+
+            model_table[model_name] = [self._exec_plan['response_name'], '/'.join(result[1]), criteria]
+
+        # Construct model information csv file
+        model_table = pd.DataFrame.from_dict(model_table, orient='index', columns=['response', 'predictors', 'criteria'])
+        model_table = model_table.reset_index()
+        model_table.columns = ['model_name', 'response', 'predictors', 'criteria']
+
+        # export the result to model folder
+        exporter = ExportFactory('csv').generate()
+        export_manager = ExportManager(exporter)
+        export_manager.exec(model_table, self._exec_plan['summary_target']['dir'], self._exec_plan['summary_target']['name'])
+        print('Models Trained!')
 
 
 if __name__ == '__main__':
     print('### Model Main ###')
 
     model_exec_plan = {
-        'predictor_name': ["Health.expenditures....of.GDP.","Literacy....","Physicians.density..physicians.1.000.population.","Obesity - adult prevalence rate (%)","Life expectancy at birth (years)","H_bed_density","Imigrate_Rate","Pop_Density","GDP - per capita (PPP) (US$)","Unemployment rate (%)"],
+        'source_dir': [{
+            'dir': '../../data/split/',
+            'files': ['training.csv']
+        }],
+        'models_target': {
+            'dir': '../../data/model/models',
+        },
+        'summary_target': {
+            'dir': '../../data/model',
+            'name': 'covid19_models_summary'
+        },
+        'predictor_name': ["Health.expenditures....of.GDP.","Literacy....",
+                           "Physicians.density..physicians.1.000.population.",
+                           "Obesity - adult prevalence rate (%)","Life expectancy at birth (years)",
+                           "H_bed_density","Imigrate_Rate","Pop_Density",
+                           "GDP - per capita (PPP) (US$)", "Unemployment rate (%)"],
         'response_name': ['Recovery Rate'],
         'experiments': [{
             'name': 'AIC',
@@ -48,58 +123,6 @@ if __name__ == '__main__':
         }, ]
     }
 
-    # get source
-    importer_object = ImporterFactory('csv').generate()
-    importer_manager = ImporterManager(importer_object)
+    model = Model(model_exec_plan)
+    model.exec()
 
-    files = [{
-        'dir': '../../data/preprocessed/',
-        'files': ['covid19_preprocessed.csv']
-    }]
-
-    data = importer_manager.exec(files)[0]
-    # initialize split object
-    ratio_splitter = SplitFactory('ratio').generate()
-    training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
-
-    # register models
-    model_register = ModelRegister()
-
-    model_map = {
-        'AIC': AIC,
-        'StepWise': StepWise,
-        'SimpleLm': SimpleLm
-    }
-
-    for model in model_exec_plan['experiments']:
-        model_name = model['name']
-        model_register.register(model_name, model_map[model_name], model_exec_plan['predictor_name'],
-                                model_exec_plan['response_name'])
-
-    # execute models base on execution plan
-    model_table = {}
-    for model in model_exec_plan['experiments']:
-        result = model_register.exec(model['name'], training, model['criteria'])
-
-        if len(model['criteria'].items()) == 0:
-            criteria = ''
-            model_name = model['name']
-        else:
-            key, value = list(model['criteria'].items())[0]
-            criteria = key + ' ' + str(value)
-            model_name = model['name'] + '_' + str(value)
-
-        model_exporter  = ExportFactory('model').generate()
-        exporter =  ExportManager(model_exporter)
-        exporter.exec(result[0], '../../data/model/models', model_name)
-
-        model_table[model_name] = [model_exec_plan['response_name'], '/'.join(result[1]), criteria]
-
-    model_table = pd.DataFrame.from_dict(model_table, orient='index', columns=['response', 'predictors', 'criteria'])
-    model_table = model_table.reset_index()
-    model_table.columns = ['model_name', 'response', 'predictors', 'criteria']
-    # print(model_table)
-
-    loader = ExportFactory('csv').generate()
-    saver = ExportManager(loader)
-    saver.exec(model_table, '../../data/model', 'covid19_modeled1')
