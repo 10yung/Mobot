@@ -75,7 +75,7 @@ class Model:
         exporter = ExportFactory('csv').generate()
         export_manager = ExportManager(exporter)
         export_manager.exec(model_table, self._exec_plan['summary_target']['dir'], self._exec_plan['summary_target']['name'])
-        print('Models Trained!')
+        print('Finished Experiment !')
 
 
 if __name__ == '__main__':
