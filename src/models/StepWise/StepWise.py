@@ -12,8 +12,6 @@ from src.utils.Importer.ImporterManager import ImporterManager
 from src.models.Interface.LinearModelInterface import LinearModelInterface
 
 
-
-
 class StepWise(LinearModelInterface):
     def __init__(self, predictor_name: list, response_name: list):
         self._predictor_name = predictor_name

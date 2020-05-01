@@ -43,6 +43,7 @@ def train_aic_model(X,y):
 def rSubset(arr, r):
     return list(combinations(arr, r))
 
+
 class AIC(LinearModelInterface):
     def __init__(self, predictor_name: list, response_name: list):
         self._predictor_name = predictor_name
