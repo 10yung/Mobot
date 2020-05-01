@@ -1,25 +1,11 @@
+import pandas as pd
 import sys
 sys.path.append('../../../')
-import ast
-import pandas as pd
-from src.split.SplitFactory import SplitFactory
-from src.split.SplitManager import SplitManager
-from src.preprocess.utils.Source.SourceFactory import SourceFactory
-from src.preprocess.utils.Source.SourceManager import SourceManager
+
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
-from math import log,sqrt
-from sklearn.datasets import make_regression
-from sklearn.linear_model import LinearRegression
+from math import sqrt
 from sklearn.metrics import mean_squared_error
-from statsmodels.regression.linear_model import OLS
-from statsmodels.tools import add_constant
-from itertools import combinations
-from src.models.AIC.AIC import AIC
-from src.models.SimpleLm.SimpleLm import SimpleLm
-from src.models.StepWise.StepWise import StepWise
-from sklearn.metrics import mean_squared_error
-from joblib import dump, load
 
 
 class RMSE:
@@ -31,21 +17,19 @@ class RMSE:
 
 
 if __name__ == '__main__':
-    print("Test")
-    print("=====")
+    print("### RMSE ###")
 
-
-    # Fetch csv file and split train/testing
-    ratio_splitter = SplitFactory('ratio').generate()
-    importer_object = ImporterFactory('csv').generate()
-    csv_fetcher_object = ImporterManager(importer_object)
-    files = [{
-        'dir': '../../../data/preprocessed/',
-        'files': ['covid19_preprocessed.csv']
+     # get source
+    source_dir = [{
+            'dir': '../../../data/split/',
+            'files': ['training.csv']
+    },{
+            'dir': '../../../data/split/',
+            'files': ['testing.csv']
     }]
-    data = csv_fetcher_object.exec(files)[0]
-    training, testing = SplitManager(ratio_splitter).exec(data, 0.8)
-
+    importer = ImporterFactory('csv').generate()
+    importer_manager = ImporterManager(importer)
+    training, testing = importer_manager.exec(source_dir)
 
     # Import Model
     model_files = [{
@@ -54,7 +38,7 @@ if __name__ == '__main__':
     }]
     fetcher_object = ImporterFactory('model').generate()
     model_object = ImporterManager(fetcher_object)
-    model_list_test = model_object.exec(model_files)
+    model_obj = model_object.exec(model_files)[0]
 
     # Test Parameters
     predictors_list = ['Health.expenditures....of.GDP.', 'Literacy....', 'Physicians.density..physicians.1.000.population.', 'Obesity - adult prevalence rate (%)', 'Life expectancy at birth (years)', 'H_bed_density', 'Imigrate_Rate', 'Pop_Density', 'GDP - per capita (PPP) (US$)']
@@ -62,6 +46,6 @@ if __name__ == '__main__':
 
     # Test Class Static Method
     RMSE_Object = RMSE()
-    answer = RMSE_Object.get_rmse(testing,predictors_list,response_list,model_list_test[0])
+    answer = RMSE_Object.get_rmse(testing, predictors_list, response_list, model_obj)
     print(answer)
 
