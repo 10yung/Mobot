@@ -24,14 +24,7 @@ def calculate_aic(n, mse, num_params):
 
 
 def train_aic_model(X, y):
-    # model = LinearRegression()
-    # model.fit(X, y)
-    #
-    # # number of parameters
-    # num_params = len(model.coef_) + 1
-
-    # print('Number of parameters: %d' % (num_params))
-    # predict the training set
+    # Train model
     model = sm.OLS(y, X).fit()
     num_params = len(model.params.to_numpy()) + 1
 
@@ -69,6 +62,7 @@ class AIC(LinearModelInterface):
 
         result_columns = min(aic_info_dict, key=aic_info_dict.get)
         result_column_name_list = ast.literal_eval(result_columns)
+
         # result_aic_score = aic_info_dict[result_columns][0]
         result_model = aic_info_dict[result_columns][1]
         est_y = result_model.predict(df[result_column_name_list])
@@ -76,10 +70,10 @@ class AIC(LinearModelInterface):
         y = pd.DataFrame(y_list)
         est_y_list = list(est_y)
         est_y = pd.DataFrame(est_y_list)
-        # print(est_y)
+
         resid = [x - y for x, y in zip(y_list, est_y_list)]
         resid = pd.DataFrame(resid)
-        # print(resid)
+
         result_df = pd.concat([y, est_y, resid], axis=1)
         result_df.columns = ['  Y   ', 'Y_Predicted', 'Residual']
 
