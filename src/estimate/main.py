@@ -17,12 +17,10 @@ class Estimate:
         # fetch csv file and split train/testing
         importer = ImporterFactory('csv').generate()
         importer_manager = ImporterManager(importer)
-        training, testing = importer_manager.exec(self._exec_plan['source_dir'])
+        testing = importer_manager.exec(self._exec_plan['source_dir'])[0]
 
         # Get model info data and to dict
-        importer_object = ImporterFactory('csv').generate()
-        csv_fetcher_object = ImporterManager(importer_object)
-        data = csv_fetcher_object.exec(self._exec_plan['models_summary'])[0]
+        data = importer_manager.exec(self._exec_plan['models_summary'])[0]
         data_dict = data.to_dict()
 
         # Build Model Name List Using Model Info Data
@@ -35,17 +33,18 @@ class Estimate:
             'dir': self._exec_plan['models_dir'],
             'files': model_name_list
         }]
-        fetcher_object = ImporterFactory('model').generate()
-        model_object = ImporterManager(fetcher_object)
-        model_list_test = model_object.exec(model_files)
-        model_dict = {v : k for v, k in enumerate(model_list_test)}
+
+        model_importer = ImporterFactory('model').generate()
+        model_manager = ImporterManager(model_importer)
+        models = model_manager.exec(model_files)
+        model_dict = {v : k for v, k in enumerate(models)}
 
         # Get a list of RMSE
         rmse_list =[]
-        for (index, response), (index, predictors),(index,model) in zip(data_dict['response'].items(), data_dict['predictors'].items(),model_dict.items()):
+        for (index, response), (index, predictors), (index, model) in zip(data_dict['response'].items(), data_dict['predictors'].items(), model_dict.items()):
             predictors = predictors.split('/')
             response = response.strip("'][").split(', ')
-            rmse = RMSE().get_rmse(testing,predictors,response,model)
+            rmse = RMSE().get_rmse(testing, predictors, response, model)
             rmse_list.append(rmse)
 
         # Concat model info dataframe and rmse dataframe
@@ -64,9 +63,6 @@ if __name__ == '__main__':
 
     estimate_exec_plan = {
         'source_dir': [{
-                'dir': '../../data/split/',
-                'files': ['training.csv']
-        }, {
                 'dir': '../../data/split/',
                 'files': ['testing.csv']
         }],
