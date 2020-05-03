@@ -133,5 +133,4 @@ dmypy.json
 .idea/
 
 # Data
-data/
-data/model/models
+/data
