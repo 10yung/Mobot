@@ -125,7 +125,7 @@ if __name__ == '__main__':
             }],
             'models_summary': [{
                 'dir': '../data/model/',
-                'files': ['covid19_modeled1.csv'],
+                'files': ['covid19_models_summary.csv'],
             }],
             'models_dir': '../data/model/models/',
             'summary_target': {
