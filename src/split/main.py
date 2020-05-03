@@ -39,7 +39,7 @@ class Split:
         saver = ExportManager(loader)
         saver.exec(training.reset_index(drop=True), self._exec_plan['target']['dir'], 'training')
         saver.exec(testing.reset_index(drop=True), self._exec_plan['target']['dir'], 'testing')
-        print('Save training testing split file!')
+        print('=== Finished split ===')
 
 
 

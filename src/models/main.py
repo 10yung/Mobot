@@ -39,9 +39,9 @@ class Model:
 
         model_register = ModelRegister()
 
-        for model in model_exec_plan['experiments']:
+        for model in  self._exec_plan['experiments']:
             model_name = model['name']
-            model_register.register(model_name, model_map[model_name], model_exec_plan['predictor_name'],
+            model_register.register(model_name, model_map[model_name],  self._exec_plan['predictor_name'],
                                     self._exec_plan['response_name'])
 
         # -----
@@ -75,7 +75,7 @@ class Model:
         exporter = ExportFactory('csv').generate()
         export_manager = ExportManager(exporter)
         export_manager.exec(model_table, self._exec_plan['summary_target']['dir'], self._exec_plan['summary_target']['name'])
-        print('Finished Experiment !')
+        print('=== Finish modeling ===')
 
 
 if __name__ == '__main__':

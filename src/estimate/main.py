@@ -54,7 +54,8 @@ class Estimate:
         # Export Result Dataframe
         csv_exporter  = ExportFactory('csv').generate()
         exporter =  ExportManager(csv_exporter)
-        exporter.exec(result_df, self._exec_plan['summary_target']['dir'], estimate_exec_plan['summary_target']['name'])
+        exporter.exec(result_df, self._exec_plan['summary_target']['dir'], self._exec_plan['summary_target']['name'])
+        print('=== Finish estimate ===')
 
 
 

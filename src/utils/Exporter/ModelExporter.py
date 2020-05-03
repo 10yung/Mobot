@@ -22,9 +22,9 @@ class ModelExporter(ExportInterface):
 
         if package_name == 'statsmodels':
             target.save(f'{target_dir}/{file_name}')
-            print('statsmodels saved!')
+            print('statsmodels saved...')
         elif package_name == 'sklearn':
             # save sklearn model
             with open(f'{target_dir}/{file_name}', 'wb') as file:
                 pickle.dump(target, file)
-            print('sklearn saved!')
+            print('sklearn saved...')

@@ -55,7 +55,7 @@ class Preprocess:
         loader = ExportFactory('csv').generate()
         saver = ExportManager(loader)
         saver.exec(flat_table, self._exec_plan['target']['dir'], self._exec_plan['target']['file_name'])
-        print('Save preprocessed file!')
+        print('=== Finish preprocess ===')
 
 
 
