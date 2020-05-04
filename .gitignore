@@ -136,4 +136,4 @@ dmypy.json
 data/
 
 # Exectution
-execution_plan.yml
+execution_plan.yaml
