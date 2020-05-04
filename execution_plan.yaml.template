@@ -1,7 +1,7 @@
 preprocess_plan:
-  source_dir: './data/source'
+  source_dir: './demo_data_source'
   target:
-    file_name: 'covid19_preprocessed'
+    file_name: 'preprocessed'
     dir: './data/preprocessed'
   imputation:
     - columns:

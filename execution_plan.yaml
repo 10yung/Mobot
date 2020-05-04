@@ -1,5 +1,5 @@
 preprocess_plan:
-  source_dir: './source'
+  source_dir: './demo_data_source'
   target:
     file_name: 'preprocessed'
     dir: './data/preprocessed'
