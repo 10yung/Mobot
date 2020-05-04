@@ -1,6 +1,0 @@
-,model_name,response,predictors,criteria
-0,AIC,['Recovery Rate'],Health.expenditures....of.GDP. Literacy.... Physicians.density..physicians.1.000.population. Obesity - adult prevalence rate (%) Life expectancy at birth (years) H_bed_density Imigrate_Rate Pop_Density GDP - per capita (PPP) (US$),
-1,SimpleLm,['Recovery Rate'],Health.expenditures....of.GDP. Literacy.... Physicians.density..physicians.1.000.population. Obesity - adult prevalence rate (%) Life expectancy at birth (years) H_bed_density Imigrate_Rate Pop_Density GDP - per capita (PPP) (US$) Unemployment rate (%),
-2,StepWise_0.05,['Recovery Rate'],Life expectancy at birth (years),p_value 0.05
-3,StepWise_0.01,['Recovery Rate'],Life expectancy at birth (years),p_value 0.01
-4,StepWise_0.02,['Recovery Rate'],Life expectancy at birth (years),p_value 0.02
