@@ -73,5 +73,5 @@ estimate_plan:
         - 'models_summary.csv'
   models_dir: './data/model/models/'
   summary_target:
-    dir: '../../data/estimate'
+    dir: './data/estimate'
     name: 'estimated_model_data'
