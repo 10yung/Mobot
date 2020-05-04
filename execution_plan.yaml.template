@@ -5,20 +5,29 @@ preprocess_plan:
     dir: './data/preprocessed'
   imputation:
     - columns:
-      - 'column_name_1'
-      - 'column_name_2'
-      - 'column_name_3'
+      - 'Pop_Density'
+      - 'Death Rate'
+      - 'Health.expenditures....of.GDP.'
+      - 'Literacy....'
+      - 'Physicians.density..physicians.1.000.population.'
+      - 'Obesity - adult prevalence rate (%)'
+      - 'Life expectancy at birth (years)'
+      - 'H_bed_density'
+      - 'Imigrate_Rate'
+      - 'Pop_Density'
+      - 'Death Rate'
+      - 'Recovery Rate'
       type: 'mean'
     - columns:
-      - 'column_name_4'
-      - 'column_name_5'
+      - 'GDP - per capita (PPP) (US$)'
+      - 'Unemployment rate (%)'
       type: 'zero'
   transformation:
     - columns:
-      - 'column_name_1'
+      - 'Pop_Density'
       type: 'log'
     - columns:
-      - 'column_name_2'
+      - 'Literacy....'
       type: 'root_square'
 
 split_plan:
@@ -43,11 +52,18 @@ model_plan:
     dir: './data/model/'
     name: 'models_summary'
   predictor_name:
-    - 'column_name_1'
-    - 'column_name_2'
-    - 'column_name_3'
+    - 'Health.expenditures....of.GDP.'
+    - 'Literacy....'
+    - 'Physicians.density..physicians.1.000.population.'
+    - 'Obesity - adult prevalence rate (%)'
+    - 'Life expectancy at birth (years)'
+    - 'H_bed_density'
+    - 'Imigrate_Rate'
+    - 'Pop_Density'
+    - 'GDP - per capita (PPP) (US$)'
+    - 'Unemployment rate (%)'
   response_name:
-    - 'column_name_5'
+    - 'Recovery Rate'
   experiments:
     - name: 'AIC'
       criteria: {}
