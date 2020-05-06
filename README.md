@@ -5,7 +5,8 @@ and functionality will include from the data collection, data cleaning and all t
 Team Members : Teng Yung Lin, Henry, Jane
 
 # How to use
-1. Install all dependent packages from `requirement.txt` file
+
+1. Create conda **Mobot** environment from `environmnet.yml` file using `conda env create -f environment.yml`. Conda command should be pre-install.
 2. Rename `exection_plan.yaml.template` into `exection_plan.yaml`
 3. Edit the detail of `exection_plan.yaml`
     - Source file directory
