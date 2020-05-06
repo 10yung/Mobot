@@ -12,5 +12,6 @@ if __name__ == '__main__':
         os.mkdir('./data/model')
         os.mkdir('./data/model/models')
         os.mkdir('./data/estimate')
+        print('Create data folder successfully!')
     except OSError as error:
         print(error)
