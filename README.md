@@ -2,7 +2,7 @@
 Description : This porpose of building this project is to create a data science pipe line application,
 and functionality will include from the data collection, data cleaning and all the way to the model evaluation.
 
-Team Members : Teng Yung Lin, Henry, Jane
+Team Members : Teng Yung Lin, Wen Hsuan Liang, Yu Chen Su
 
 # How to use
 
