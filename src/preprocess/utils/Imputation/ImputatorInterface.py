@@ -6,7 +6,7 @@ class ImputatorInterface(ABC):
     """
         Define data cleaning process functions for replace missing value
     """
-
+    @staticmethod
     @abstractmethod
-    def impute(self, data: pd.DataFrame, column_name: str) -> None:
+    def impute(data: pd.DataFrame, column_name: str) -> None:
         pass

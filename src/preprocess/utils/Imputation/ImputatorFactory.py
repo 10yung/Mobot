@@ -5,7 +5,7 @@ sys.path.append('../../../../')
 from src.preprocess.utils.Imputation.MeanImputator import MeanImputator
 from src.preprocess.utils.Interface.FactoryInterface import FactoryInterface
 from src.preprocess.utils.Imputation.MedianImputator import MedianImputator
-from src.preprocess.utils.Imputation.ZeroImpulator import ZeroImputator
+from src.preprocess.utils.Imputation.ZeroImputator import ZeroImputator
 from src.preprocess.utils.Imputation.KDEImputator import KDEImputator
 
 
