@@ -1,21 +1,26 @@
+# ***************************************************************************************
+# *    Title: Akaike’s Information Criterion: Definition, Formulas
+# *    Author: Stephanie
+# *    Date: Sep 7, 2015
+# *    Availability: https://www.statisticshowto.com/akaikes-information-criterion/
+# *
+# ***************************************************************************************
+
 import ast
 import pandas as pd
 import statsmodels.api as sm
 import sys
-
-sys.path.append('../../../')
 
 from src.split.SplitFactory import SplitFactory
 from src.split.SplitManager import SplitManager
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
 from math import log
-from sklearn.datasets import make_regression
-from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 from itertools import combinations
 from src.models.Interface.LinearModelInterface import LinearModelInterface
 
+sys.path.append('../../../')
 
 # calculate aic for regression
 def calculate_aic(n, mse, num_params):

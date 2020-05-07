@@ -1,8 +1,16 @@
+# ***************************************************************************************
+# *    Title: Linear Regression
+# *    Author: Seabold, Skipper, and Josef Perktold
+# *    Date: 2010
+# *    Code version: v0.11.1
+# *    Availability: https://www.statsmodels.org/stable/regression.html
+# *
+# ***************************************************************************************
+
 import statsmodels.api as sm
 import pandas as pd
 import sys
 
-sys.path.append('../../../')
 from src.split.SplitFactory import SplitFactory
 from src.split.SplitManager import SplitManager
 from src.preprocess.utils.Source.SourceFactory import SourceFactory
@@ -10,6 +18,8 @@ from src.preprocess.utils.Source.SourceManager import SourceManager
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
 from src.models.Interface.LinearModelInterface import LinearModelInterface
+
+sys.path.append('../../../')
 
 
 class SimpleLm(LinearModelInterface):

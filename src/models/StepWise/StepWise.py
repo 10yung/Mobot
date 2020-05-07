@@ -1,7 +1,14 @@
+# ***************************************************************************************
+# *    Title: Applying Wrapper Methods in Python for Feature Selection
+# *    Author: Usman Malik
+# *    Date: NA
+# *    Availability: https://stackabuse.com/applying-wrapper-methods-in-python-for-feature-selection/
+# *
+# ***************************************************************************************
+
 import statsmodels.api as sm
 import pandas as pd
 import sys
-sys.path.append('../../../')
 
 from src.split.SplitFactory import SplitFactory
 from src.split.SplitManager import SplitManager
@@ -10,6 +17,8 @@ from src.preprocess.utils.Source.SourceManager import SourceManager
 from src.utils.Importer.ImporterFactory import ImporterFactory
 from src.utils.Importer.ImporterManager import ImporterManager
 from src.models.Interface.LinearModelInterface import LinearModelInterface
+
+sys.path.append('../../../')
 
 
 class StepWise(LinearModelInterface):
