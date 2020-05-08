@@ -18,4 +18,9 @@ Team Members : Teng Yung Lin, Wen Hsuan Liang, Yu Chen Su
 
 # Reference :
 1. Jason Brownlee (2019), Probabilistic Model Selection with AIC, BIC, and MDL, Retrieved from https://machinelearningmastery.com/probabilistic-model-selection-measures/
-2. 
+2. Greg (2013),Is there a library function for Root mean square error (RMSE) in python?, Retrieved from Stack overflow
+https://stackoverflow.com/questions/17197492/is-there-a-library-function-for-root-mean-square-error-rmse-in-python
+3. Kavindu Dodanduwa (2018), python exception message capturing, Retrieved from Stack overflow
+https://stackoverflow.com/questions/4690600/python-exception-message-capturing
+4. Jason Brownlee (2016), Save and Load Machine Learning Models in Python with scikit-learn, Retrieved from
+https://machinelearningmastery.com/save-load-machine-learning-models-python-scikit-learn/
