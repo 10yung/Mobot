@@ -16,7 +16,7 @@ Team Members : Teng Yung Lin, Wen Hsuan Liang, Yu Chen Su
 5. Run `python main.py` to execute the experiments
 6. The result file will be inside `./data/estimate` folder which shows the model performance of each experiment.
 
-### Reference :
+## Reference :
 1. Jason Brownlee (2019), Probabilistic Model Selection with AIC, BIC, and MDL, Retrieved from https://machinelearningmastery.com/probabilistic-model-selection-measures/
 2. Greg (2013),Is there a library function for Root mean square error (RMSE) in python?, Retrieved from Stack overflow
 https://stackoverflow.com/questions/17197492/is-there-a-library-function-for-root-mean-square-error-rmse-in-python
