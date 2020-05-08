@@ -15,3 +15,7 @@ Team Members : Teng Yung Lin, Wen Hsuan Liang, Yu Chen Su
 4. Run `python init.py` to construct the folder structure for Mobot project
 5. Run `python main.py` to execute the experiments
 6. The result file will be inside `./data/estimate` folder which shows the model performance of each experiment.
+
+# Reference :
+1. Jason Brownlee (2019), Probabilistic Model Selection with AIC, BIC, and MDL, Retrieved from https://machinelearningmastery.com/probabilistic-model-selection-measures/
+2. 
