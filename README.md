@@ -16,6 +16,10 @@ Team Members : Teng Yung Lin, Wen Hsuan Liang, Yu Chen Su
 5. Run `python main.py` to execute the experiments
 6. The result file will be inside `./data/estimate` folder which shows the model performance of each experiment.
 
+## Dataset :
+1. Index Mundi (https://www.indexmundi.com/) 
+2. World Meter (https://www.worldometers.info/coronavirus/)
+
 ## Reference :
 1. Jason Brownlee (2019), Probabilistic Model Selection with AIC, BIC, and MDL, Retrieved from https://machinelearningmastery.com/probabilistic-model-selection-measures/
 2. Greg (2013),Is there a library function for Root mean square error (RMSE) in python?, Retrieved from Stack overflow
@@ -24,3 +28,6 @@ https://stackoverflow.com/questions/17197492/is-there-a-library-function-for-roo
 https://stackoverflow.com/questions/4690600/python-exception-message-capturing
 4. Jason Brownlee (2016), Save and Load Machine Learning Models in Python with scikit-learn, Retrieved from
 https://machinelearningmastery.com/save-load-machine-learning-models-python-scikit-learn/
+
+
+
