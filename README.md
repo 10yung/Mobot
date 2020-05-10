@@ -28,6 +28,11 @@ https://stackoverflow.com/questions/17197492/is-there-a-library-function-for-roo
 https://stackoverflow.com/questions/4690600/python-exception-message-capturing
 4. Jason Brownlee (2016), Save and Load Machine Learning Models in Python with scikit-learn, Retrieved from
 https://machinelearningmastery.com/save-load-machine-learning-models-python-scikit-learn/
+5. Kamon Ayeva, Sakis Kasampalis (2018), Mastering Python Design Patterns - Second Edition
+6. Baran Köseoğlu (2020), Structure Your Data Science Projects - Develop collaborative and reproducible data science projects
+https://towardsdatascience.com/structure-your-data-science-projects-6c6c8653c16a
+7. Bruno Oliveira (2018), pytest Quick Start Guide
+
 
 
 
