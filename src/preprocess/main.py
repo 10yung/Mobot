@@ -43,6 +43,12 @@ class Preprocess:
         # ----------
         flat_table = preprocess_command_register.get('create_flat_from_csv').exec()
 
+        # save flat table to raw folder
+        # TODO: separate into different function
+        loader = ExportFactory('csv').generate()
+        saver = ExportManager(loader)
+        saver.exec(flat_table, self._exec_plan['target_raw']['dir'], self._exec_plan['target_raw']['file_name'])
+
         for imputation in self._exec_plan['imputation']:
             preprocess_command_register.get(f"imputation_by_{imputation['type']}").exec(imputation['columns'], flat_table)
 
@@ -52,8 +58,6 @@ class Preprocess:
         # ----------
         # save file
         # ----------
-        loader = ExportFactory('csv').generate()
-        saver = ExportManager(loader)
         saver.exec(flat_table, self._exec_plan['target']['dir'], self._exec_plan['target']['file_name'])
         print('=== Finish preprocess ===')
 
@@ -64,6 +68,10 @@ if __name__ == '__main__':
 
     preprocess_exec_plan = {
         'source_dir': '../../data/source',
+        'target_raw': {
+            'file_name': 'raw',
+            'dir': '../../data/raw'
+        },
         'target': {
             'file_name': 'covid19_preprocessed',
             'dir': '../../data/preprocessed'

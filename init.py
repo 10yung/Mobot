@@ -8,6 +8,7 @@ if __name__ == '__main__':
     try:
         os.mkdir('./data')
         os.mkdir('./data/preprocessed')
+        os.mkdir('./data/raw')
         os.mkdir('./data/split')
         os.mkdir('./data/model')
         os.mkdir('./data/model/models')
